@@ -15,10 +15,20 @@ export class PostgresArtworkReadModelRepository
     }
 
     async getAll(): Promise<ArtworkReadModel[]> {
-        const result = await this._entityManager.query(
+        const result: ArtworkReadModel[] = await this._entityManager.query(
             `
-    SELECT
-  `
+        SELECT
+            art.id,
+            art.title,
+            art.author,
+            art.type,
+            art.method,
+            art.material,
+            art.image,
+            art."date"
+        FROM
+            artworks art 
+    `
         );
         return result.map((artwork) =>
             this.artworkReadModelMapper.toDomain(artwork)
@@ -26,9 +36,21 @@ export class PostgresArtworkReadModelRepository
     }
 
     async getById(artworkId: string): Promise<ArtworkReadModel> {
-        const result = await this._entityManager.query(
+        const result: ArtworkReadModel[] = await this._entityManager.query(
             `
-    SELECT
+        SELECT
+            art.id,
+            art.title,
+            art.author,
+            art.type,
+            art.method,
+            art.material,
+            art.image,
+            art."date"
+        FROM
+            artworks art 
+        WHERE
+            art.id = $1
   `,
             [artworkId]
         );

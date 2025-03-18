@@ -4,6 +4,7 @@ import { AppIdentifiers } from "../../../AppIdentifiers";
 import { User } from "../../domain/aggregates/User";
 import { Usecase } from "../Usecase";
 import { UserRepository } from "../../domain/repositories/UserRepository";
+import { PasswordGateway } from "../../domain/gateways/PasswordGateway";
 
 export interface SignUpInput {
     email: string;
@@ -14,7 +15,9 @@ export interface SignUpInput {
 export class SignUp implements Usecase<SignUpInput, string> {
     constructor(
         @inject(AppIdentifiers.userRepository)
-        private userRepository: UserRepository
+        private userRepository: UserRepository,
+        @inject(AppIdentifiers.passwordGateway)
+        private readonly _passwordGateway: PasswordGateway
     ) {}
     async execute(request: SignUpInput): Promise<string> {
         const { email, password } = request;
@@ -28,9 +31,11 @@ export class SignUp implements Usecase<SignUpInput, string> {
             return responseMessage;
         }
 
+        const encryptedPassword = await this._passwordGateway.encrypt(password);
+
         const user = User.signUp({
             email,
-            password,
+            password: encryptedPassword,
         });
 
         await this.userRepository.save(user);

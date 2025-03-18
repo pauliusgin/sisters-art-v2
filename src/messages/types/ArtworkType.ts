@@ -5,4 +5,5 @@ export enum ArtworkType {
     CARDBOARD_DRAWING = "cardboard drawing",
     COLORING = "coloring",
     COLLAGE = "collage",
+    OTHER = "other"
 }

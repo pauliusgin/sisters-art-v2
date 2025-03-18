@@ -25,6 +25,7 @@ import { ArtworkEntity } from "../../adapters/repositories/artwork/write/Artwork
 import { DataSource } from "typeorm";
 import { PostgresArtworkRepository } from "../../adapters/repositories/artwork/write/PostgresArtworkRepository";
 import { PostgresArtworkReadModelRepository } from "../../adapters/repositories/artwork/read/PosgresArtworkReadModelRepository";
+import { GetAllArtworks } from "../../core/read/queries/GetAllArtworks";
 
 export class AppDependencies extends Container {
     async init() {
@@ -88,6 +89,7 @@ export class AppDependencies extends Container {
         this.bind(CreateArtwork).toSelf();
         this.bind(DeleteArtwork).toSelf();
         this.bind(UpdateArtwork).toSelf();
+        this.bind(GetAllArtworks).toSelf();
 
         return this;
     }

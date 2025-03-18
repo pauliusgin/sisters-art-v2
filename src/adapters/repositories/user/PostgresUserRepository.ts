@@ -32,7 +32,7 @@ export class PostgresUserRepository implements UserRepository {
             },
         });
 
-        if (user) {
+        if (!user) {
             return null;
         }
 
@@ -48,6 +48,10 @@ export class PostgresUserRepository implements UserRepository {
             },
         });
 
+        if (!user) {
+            return null;
+        }
+
         return this.userEntityMapper.toDomain(user);
     }
 
@@ -60,7 +64,7 @@ export class PostgresUserRepository implements UserRepository {
             },
         });
 
-        if (user) {
+        if (!user) {
             return null;
         }
 
@@ -74,7 +78,7 @@ export class PostgresUserRepository implements UserRepository {
             id: userId,
         });
 
-        if (user) {
+        if (!user) {
             return;
         }
 

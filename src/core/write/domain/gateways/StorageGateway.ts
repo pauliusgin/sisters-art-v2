@@ -1,7 +1,9 @@
 export interface StorageGateway {
-    upload(
-        fileBuffer: Buffer,
-        fileName: string,
-        mimeType: string
-    ): Promise<{ url: string }>;
+    upload(payload: {
+        fileBuffer: Buffer;
+        fileName: string;
+        mimeType: string;
+    }): Promise<{ url: string }>;
+
+    delete(fileUrl: string): Promise<void>;
 }

@@ -14,16 +14,20 @@ import {
     Body,
     Param,
 } from "routing-controllers";
-import { AuthenticatedRequest } from "../../config/AuthenticatedRequest";
 import { CreateArtwork } from "../../../core/write/usecases/artwork/CreateArtwork";
 import { CreateArtworkCommand } from "./commands/CreateArtworkCommand";
 import { DeleteArtwork } from "../../../core/write/usecases/artwork/DeleteArtwork";
 import { UpdateArtwork } from "../../../core/write/usecases/artwork/UpdateArtwork";
 import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
 import { GetAllArtworks } from "../../../core/read/queries/GetAllArtworks";
+import multer from "multer";
+import { AuthenticatedRequest } from "../../config/AuthenticatedRequest";
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 @injectable()
 @JsonController("/artworks")
+@UseBefore(upload.single("file"))
 export class ArtworkController {
     constructor(
         @inject(CreateArtwork)
@@ -40,12 +44,24 @@ export class ArtworkController {
     @Post("/")
     async createArtwork(
         @Res() res: Response,
+        @Req() req: AuthenticatedRequest,
         @Body() cmd: CreateArtworkCommand
     ) {
         const body = CreateArtworkCommand.setProperties(cmd);
         await validateOrReject(body);
+        const { title, author, type, material, method } = body;
 
-        const result = await this._createArtwork.execute(body);
+        const file = req.file;
+
+        const result = await this._createArtwork.execute({
+            title,
+            author,
+            type,
+            material,
+            method,
+            fileBuffer: file.buffer,
+            mimeType: file.mimetype,
+        });
 
         return res.status(201).send(result.props);
     }

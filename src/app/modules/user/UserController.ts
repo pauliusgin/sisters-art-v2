@@ -23,12 +23,12 @@ export class UserController {
         await validateOrReject(body);
         const { email, password } = body;
 
-        const result = await this._signUp.execute({
+        const response = await this._signUp.execute({
             email,
             password,
         });
 
-        return res.status(201).send(result);
+        return res.status(201).send({ response });
     }
 
     @Post("/login")
@@ -45,6 +45,8 @@ export class UserController {
             password,
         });
 
-        return res.status(200).send(result);
+        return res
+            .status(200)
+            .send({ ...result.user.props, token: result.token });
     }
 }

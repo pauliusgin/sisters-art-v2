@@ -1,7 +1,7 @@
 import { Expose, plainToClass } from "class-transformer";
 import {
-    IsDate,
     IsEnum,
+    IsISO8601,
     IsOptional,
     IsString,
     MaxLength,
@@ -37,13 +37,8 @@ export class CreateArtworkCommand {
     material: ArtworkMaterial;
 
     @Expose()
-    @IsString()
-    @MaxLength(500)
-    image: string;
-
-    @Expose()
-    @IsDate()
     @IsOptional()
+    @IsISO8601()
     date: Date;
 
     static setProperties(cmd: CreateArtworkCommand): CreateArtworkCommand {
