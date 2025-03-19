@@ -49,7 +49,7 @@ export class ArtworkController {
     ) {
         const body = CreateArtworkCommand.setProperties(cmd);
         await validateOrReject(body);
-        const { title, author, type, material, method } = body;
+        const { title, author, type, material, method, date } = body;
 
         const file = req.file;
 
@@ -59,6 +59,7 @@ export class ArtworkController {
             type,
             material,
             method,
+            date,
             fileBuffer: file.buffer,
             mimeType: file.mimetype,
         });

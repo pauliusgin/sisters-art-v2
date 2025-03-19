@@ -3,11 +3,13 @@ import { ArtworkType } from "../../../../messages/types/ArtworkType";
 import { ArtworkMethod } from "../../../../messages/types/ArtworkMethod";
 import { ArtworkMaterial } from "../../../../messages/types/ArtworkMaterial";
 import { Author } from "../../../../messages/types/Author";
+import { calculateAge } from "../../utils/calculateAge";
 
 export interface ArtworkProperties {
     id: string;
     title?: string;
     author: Author;
+    authorAge: number;
     type?: ArtworkType;
     method?: ArtworkMethod;
     material?: ArtworkMaterial;
@@ -16,6 +18,9 @@ export interface ArtworkProperties {
 }
 
 export class Artwork {
+    static viltauteBirthday = "2020-10-16";
+    static jogaileBirthday = "2022-06-10";
+
     createdAt = new Date();
     updatedAt = new Date();
     props: ArtworkProperties;
@@ -38,6 +43,8 @@ export class Artwork {
     }) {
         const { title, author, type, method, material, image, date } = payload;
 
+        console.log("date ------>", date);
+
         const artwork = new Artwork({
             id: v4(),
             title,
@@ -47,6 +54,10 @@ export class Artwork {
             material,
             image,
             date,
+            authorAge:
+                author === Author.JOGAILE
+                    ? calculateAge(date, Artwork.jogaileBirthday)
+                    : calculateAge(date, Artwork.viltauteBirthday),
         });
 
         return artwork;

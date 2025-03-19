@@ -54,7 +54,7 @@ export class CreateArtwork implements Usecase<CreateArtworkInput, Artwork> {
             method,
             material,
             image: uploadedImage.url,
-            date,
+            date: date ?? new Date(),
         });
 
         await this._artworkRepository.save(artwork);
