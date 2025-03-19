@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { AppIdentifiers } from "../../../AppIdentifiers";
-import { User } from "../../domain/aggregates/User";
 import { Usecase } from "../Usecase";
 import { UserRepository } from "../../domain/repositories/UserRepository";
 import { PasswordGateway } from "../../domain/gateways/PasswordGateway";
@@ -14,7 +13,10 @@ export interface LoginWithEmailInput {
 }
 
 export interface LoginWithEmailOutput {
-    user: User;
+    id: string;
+    email: string;
+    phone: string;
+    signInAt: Date;
     token: string;
 }
 
@@ -54,6 +56,12 @@ export class LoginWithEmail
 
         user.loginWithEmail();
 
-        return { user, token };
+        return {
+            id,
+            email,
+            phone,
+            signInAt: user.props.signInAt,
+            token,
+        };
     }
 }

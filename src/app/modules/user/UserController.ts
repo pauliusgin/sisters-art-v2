@@ -45,8 +45,6 @@ export class UserController {
             password,
         });
 
-        return res
-            .status(200)
-            .send({ ...result.user.props, token: result.token });
+        return res.status(200).send(result);
     }
 }
