@@ -15,7 +15,7 @@ app.use(morgan("combined"));
 configureExpress(app);
 
 app.listen(PORT, async () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`\x1b[34mServer is running on port ${PORT}\x1b[0m`);
 });
 
 export default app;

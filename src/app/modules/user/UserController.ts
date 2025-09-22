@@ -10,41 +10,41 @@ import { SignUpCommand } from "./commands/SignUpCommand";
 @injectable()
 @JsonController("/users")
 export class UserController {
-    constructor(
-        @inject(SignUp)
-        private readonly _signUp: SignUp,
-        @inject(LoginWithEmail)
-        private readonly _loginWithEmail: LoginWithEmail
-    ) {}
+  constructor(
+    @inject(SignUp)
+    private readonly _signUp: SignUp,
+    @inject(LoginWithEmail)
+    private readonly _loginWithEmail: LoginWithEmail
+  ) {}
 
-    @Post("/signup")
-    async signUp(@Res() res: Response, @Body() cmd: SignUpCommand) {
-        const body = SignUpCommand.setProperties(cmd);
-        await validateOrReject(body);
-        const { email, password } = body;
+  @Post("/signup")
+  async signUp(@Res() res: Response, @Body() cmd: SignUpCommand) {
+    const body = SignUpCommand.setProperties(cmd);
+    await validateOrReject(body);
+    const { email, password } = body;
 
-        const response = await this._signUp.execute({
-            email,
-            password,
-        });
+    const response = await this._signUp.execute({
+      email,
+      password,
+    });
 
-        return res.status(201).send({ response });
-    }
+    return res.status(201).send({ response });
+  }
 
-    @Post("/login")
-    async loginWithEmail(
-        @Res() res: Response,
-        @Body() cmd: LoginWithEmailCommand
-    ) {
-        const body = LoginWithEmailCommand.setProperties(cmd);
-        await validateOrReject(body);
-        const { email, password } = body;
+  @Post("/login")
+  async loginWithEmail(
+    @Res() res: Response,
+    @Body() cmd: LoginWithEmailCommand
+  ) {
+    const body = LoginWithEmailCommand.setProperties(cmd);
+    await validateOrReject(body);
+    const { email, password } = body;
 
-        const result = await this._loginWithEmail.execute({
-            email,
-            password,
-        });
+    const result = await this._loginWithEmail.execute({
+      email,
+      password,
+    });
 
-        return res.status(200).send(result);
-    }
+    return res.status(200).send(result);
+  }
 }

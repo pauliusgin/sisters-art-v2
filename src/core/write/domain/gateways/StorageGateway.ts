@@ -1,9 +1,7 @@
-export interface StorageGateway {
-    upload(payload: {
-        fileBuffer: Buffer;
-        fileName: string;
-        mimeType: string;
-    }): Promise<{ url: string }>;
+import { GatewayFileInput, GatewayFileOutput } from "../../../../messages";
 
-    delete(fileUrl: string): Promise<void>;
+export interface StorageGateway {
+  upload(input: GatewayFileInput): Promise<GatewayFileOutput>;
+
+  delete(path: string): Promise<void>;
 }

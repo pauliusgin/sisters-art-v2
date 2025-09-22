@@ -1,34 +1,26 @@
 import "reflect-metadata";
-import express, { Application, Request, Response, NextFunction } from "express";
+import { Application } from "express";
 import { useExpressServer, useContainer } from "routing-controllers";
 import { AppDependencies } from "./AppDependencies";
 import { UserController } from "../modules/user/UserController";
 import { ArtworkController } from "../modules/artwork/ArtworkController";
 import morgan from "morgan";
 import cors from "cors";
+import { UploadsController } from "../modules/storage/UploadsController";
+import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 
 export async function configureExpress(app: Application) {
-    app.use((req: Request, res: Response, next: NextFunction) => {
-        if (req.originalUrl === "/webhooks/stripe/callback") {
-            express.raw({ type: "application/json" })(req, res, next);
-        } else {
-            express.json()(req, res, next);
-        }
-    });
+  app.use(morgan("combined"));
+  app.use(cors());
 
-    app.use(morgan("combined"));
-    app.use(cors());
+  const container = await new AppDependencies().init();
 
-    const routes = [UserController, ArtworkController];
+  useContainer(container);
 
-    const container = await new AppDependencies().init();
+  useExpressServer(app, {
+    controllers: [UserController, ArtworkController, UploadsController],
+    middlewares: [AuthenticationMiddleware],
+  });
 
-    useContainer(container);
-
-    useExpressServer(app, {
-        controllers: routes,
-        middlewares: [],
-    });
-
-    return container;
+  return container;
 }

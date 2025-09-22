@@ -7,58 +7,50 @@ import { Author } from "../../../../messages/types/Author";
 import { ArtworkType } from "../../../../messages/types/ArtworkType";
 import { ArtworkMethod } from "../../../../messages/types/ArtworkMethod";
 import { ArtworkMaterial } from "../../../../messages/types/ArtworkMaterial";
-import { StorageGateway } from "../../domain/gateways/StorageGateway";
+import { ArtworkCreated } from "../../../../messages";
+import { EventDispatcher, MessageIdentifiers } from "ddd-messaging-bus";
 
 export interface CreateArtworkInput {
-    title: string;
-    author: Author;
-    type?: ArtworkType;
-    method?: ArtworkMethod;
-    material?: ArtworkMaterial;
-    date?: Date;
-    fileBuffer: Buffer;
-    mimeType: string;
+  title: string;
+  author: Author;
+  type?: ArtworkType;
+  method?: ArtworkMethod;
+  material?: ArtworkMaterial;
+  date?: Date;
+  fileUrl: string;
 }
 
 @injectable()
 export class CreateArtwork implements Usecase<CreateArtworkInput, Artwork> {
-    constructor(
-        @inject(AppIdentifiers.artworkRepository)
-        private readonly _artworkRepository: ArtworkRepository,
-        @inject(AppIdentifiers.storageGateway)
-        private readonly _storageGateway: StorageGateway
-    ) {}
+  constructor(
+    @inject(AppIdentifiers.artworkRepository)
+    private readonly _artworkRepository: ArtworkRepository,
+    @inject(MessageIdentifiers.EventDispatcher)
+    private readonly _eventDispatcher: EventDispatcher
+  ) {}
 
-    async execute(request: CreateArtworkInput): Promise<Artwork> {
-        const {
-            title,
-            author,
-            type,
-            method,
-            material,
-            fileBuffer,
-            mimeType,
-            date,
-        } = request;
+  async execute(request: CreateArtworkInput): Promise<Artwork> {
+    const { title, author, type, method, material, fileUrl, date } = request;
 
-        const uploadedImage = await this._storageGateway.upload({
-            fileBuffer,
-            fileName: title,
-            mimeType,
-        });
+    const artwork = Artwork.create({
+      title,
+      author,
+      type,
+      method,
+      material,
+      fileUrl,
+      date: date ?? new Date(),
+    });
 
-        const artwork = Artwork.create({
-            title,
-            author,
-            type,
-            method,
-            material,
-            image: uploadedImage.url,
-            date: date ?? new Date(),
-        });
+    const event = new ArtworkCreated({
+      usageEntityId: artwork.props.id,
+      fileUrl,
+    });
 
-        await this._artworkRepository.save(artwork);
+    await this._artworkRepository.save(artwork);
+    await this._eventDispatcher.dispatch(event);
+    console.log(`\x1b[34mArtwork created: ${title}: ${fileUrl}\x1b[0m`);
 
-        return artwork;
-    }
+    return artwork;
+  }
 }

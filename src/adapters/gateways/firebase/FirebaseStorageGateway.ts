@@ -1,41 +1,63 @@
 import { Storage } from "firebase-admin/storage";
 import { injectable } from "inversify";
-import { StorageGateway } from "../../../core/write/domain/gateways/StorageGateway";
+import { StorageGateway } from "../../../core";
+import { v4 } from "uuid";
+import { GatewayFileInput, GatewayFileOutput } from "../../../messages";
+
+export interface FirebaseConfig {
+  firebaseStorage: Storage;
+  defaultBucket: string;
+  baseUrl: string;
+}
 
 @injectable()
 export class FirebaseStorageGateway implements StorageGateway {
-    constructor(private readonly firebaseStorage: Storage) {}
+  _firebase: Storage;
+  constructor(private readonly config: FirebaseConfig) {
+    this._firebase = config.firebaseStorage;
+  }
 
-    async upload(payload: {
-        fileBuffer: Buffer;
-        fileName: string;
-        mimeType: string;
-    }): Promise<{ url: string }> {
-        const { fileBuffer, fileName, mimeType } = payload;
+  async upload(input: GatewayFileInput): Promise<GatewayFileOutput> {
+    const { buffer, path, contentType } = input;
 
-        const bucket = this.firebaseStorage.bucket();
-        const fileUrl = `artwork/${Date.now()}_${fileName}`;
-        const file = bucket.file(fileUrl);
+    const bucket = this._firebase.bucket(this.config.defaultBucket);
+    const file = bucket.file(path);
 
-        await file.save(fileBuffer, {
-            metadata: { contentType: mimeType },
-        });
+    const token = v4();
 
-        await file.makePublic();
+    await file.save(buffer, {
+      metadata: {
+        contentType,
+        metadata: {
+          firebaseStorageDownloadTokens: token,
+        },
+      },
+    });
 
-        const url = file.publicUrl();
+    const url = this.buildUrl({ bucketName: bucket.name, path, token });
 
-        return { url };
-    }
+    return {
+      url,
+      token,
+    };
+  }
 
-    async delete(fileUrl: string): Promise<void> {
-        const bucket = this.firebaseStorage.bucket();
-        const file = bucket.file(fileUrl);
+  async delete(path: string): Promise<void> {
+    const bucket = this._firebase.bucket(this.config.defaultBucket);
+    const file = bucket.file(path);
 
-        try {
-            await file.delete();
-        } catch (error: any) {
-            console.log("error while deleting a file ------>", error);
-        }
-    }
+    await file.delete();
+  }
+
+  buildUrl(payload: {
+    bucketName: string;
+    path: string;
+    token: string;
+  }): string {
+    const { bucketName, path, token } = payload;
+
+    const encodedPath = encodeURIComponent(path);
+
+    return `${this.config.baseUrl}/b/${bucketName}/o/${encodedPath}?alt=media&token=${token}`;
+  }
 }
