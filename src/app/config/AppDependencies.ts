@@ -32,6 +32,7 @@ import {
   AttachUploadedFile,
   CreateArtwork,
   DeleteArtwork,
+  DeletePendingUploads,
   DeleteUnusedUploads,
   DeleteUploadedFile,
   GetUserById,
@@ -53,7 +54,6 @@ export class AppDependencies extends Container {
       type: "postgres",
       url: process.env.DB_URL,
       synchronize: process.env.DB_SYNCHRONIZE === "true",
-      logging: process.env.DB_LOGGING === "true",
       entities: [UserEntity, ArtworkEntity, UploadEntity],
       subscribers: [],
       migrations: [],
@@ -127,6 +127,7 @@ export class AppDependencies extends Container {
     this.bind(AttachUploadedFile).toSelf();
     this.bind(DeleteUploadedFile).toSelf();
     this.bind(DeleteUnusedUploads).toSelf();
+    this.bind(DeletePendingUploads).toSelf();
     this.bind(ImagesService).toSelf();
 
     inMemoryBuild(this);

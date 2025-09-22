@@ -6,6 +6,7 @@ export { UploadFile } from "./write/usecases/upload/UploadFile";
 export { UploadsRepository } from "./write/domain/repositories/UploadsRepository";
 export { AttachUploadedFile } from "./write/usecases/upload/AttachUploadedFile";
 export { DeleteUnusedUploads } from "./write/usecases/upload/DeleteUnusedUploads";
+export { DeletePendingUploads } from "./write/usecases/upload/DeletePendingUploads";
 export { GetUserById } from "./read/queries/GetUserById";
 export { LoginWithEmail } from "./write/usecases/user/LoginWithEmail";
 export { SignUp } from "./write/usecases/user/SignUp";

@@ -8,6 +8,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
+import { pendingUploadsCleanupCron } from "../cron/PendingUploadsCleanupCron";
 
 export async function configureExpress(app: Application) {
   app.use(morgan("combined"));
@@ -16,6 +17,8 @@ export async function configureExpress(app: Application) {
   const container = await new AppDependencies().init();
 
   useContainer(container);
+
+  pendingUploadsCleanupCron(container);
 
   useExpressServer(app, {
     controllers: [UserController, ArtworkController, UploadsController],

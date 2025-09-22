@@ -9,5 +9,7 @@ export interface UploadsRepository {
 
   findByEntityId(usageEntityId: string): Promise<Upload[]>;
 
+  findPending(): Promise<Upload[]>;
+
   delete(id: string): Promise<void>;
 }
