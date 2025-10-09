@@ -47,6 +47,8 @@ import { UploadsController } from "../modules/storage/UploadsController";
 import { ImagesService } from "../../core/write/domain/services/ImageService";
 import { HandleArtworkCreated } from "../modules/handlers/HandleArtworkCreated";
 import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
+import { PageViewController } from "../modules/html/PageViewController";
+import { LoginFormView } from "../views/LoginFormView";
 
 export class AppDependencies extends Container {
   async init() {
@@ -106,10 +108,14 @@ export class AppDependencies extends Container {
 
     this.bind(AuthenticationMiddleware).toSelf();
 
+    // views
+    this.bind(LoginFormView).toSelf();
+
     // controllers
     this.bind(UserController).toSelf();
     this.bind(ArtworkController).toSelf();
     this.bind(UploadsController).toSelf();
+    this.bind(PageViewController).toSelf();
 
     // user
     this.bind(GetUserById).toSelf();

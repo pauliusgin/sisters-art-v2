@@ -9,6 +9,7 @@ import cors from "cors";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { pendingUploadsCleanupCron } from "../cron/PendingUploadsCleanupCron";
+import { PageViewController } from "../modules/html/PageViewController";
 
 export async function configureExpress(app: Application) {
   app.use(morgan("combined"));
@@ -21,7 +22,12 @@ export async function configureExpress(app: Application) {
   pendingUploadsCleanupCron(container);
 
   useExpressServer(app, {
-    controllers: [UserController, ArtworkController, UploadsController],
+    controllers: [
+      UserController,
+      ArtworkController,
+      UploadsController,
+      PageViewController,
+    ],
     middlewares: [AuthenticationMiddleware],
   });
 

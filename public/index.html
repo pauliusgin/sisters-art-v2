@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta http-equiv="refresh" content="5" /> -->
+    <title>Sisters Art Gallery</title>
+    <link rel="preload" as="image" href="./images/brown-floor-1.webp" />
+    <link rel="preload" as="image" href="./images/big-sister-2.webp" />
+    <link rel="preload" as="image" href="./images/big-sister-3.webp" />
+    <link rel="preload" as="image" href="./images/big-sister-4.webp" />
+    <link rel="preload" as="image" href="./images/big-sister-6.webp" />
+
+    <link rel="icon" type="image/x-icon" href="./favicon.png" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Merienda" />
+    <script src="./js/htmx.min.js" defer></script>
+  </head>
+  <body
+    class="border-1 border-red-500 min-h-screen bg-[url('/images/brown-floor-1.webp')] bg-contain bg-center flex flex-col align-middle m-0">
+    <div
+      id="navbar"
+      class="h-20 min-w-screen text-center text-red-500 text-xl mt-5">
+      ... work in progress ...
+    </div>
+    <div class="ml-2 mr-2 flex flex-col pb-10" id="welcome-section">
+      <h1 data-language="en" class="text-center font-great text-8xl mb-4">
+        Sisters' Art Gallery
+      </h1>
+      <p class="text-center m-4 p-3 font-merienda" data-language="en">
+        Welcome to the wonderful world of artistic exploration, discovery and
+        imagination! Pencils, crayons, brushes and fingers - we like using
+        everything!
+      </p>
+      <div class="flex flex-col items-center">
+        <img
+          src="/images/big-sister-2.webp"
+          alt="Sisters"
+          id="welcome-image"
+          class="text-center w-[clamp(15rem,30vw+1rem,33rem)] mt-8 border-s-0 rounded-2xl shadow-[1px_1px_5px_black] rotate-[4deg]" />
+      </div>
+    </div>
+  </body>
+</html>

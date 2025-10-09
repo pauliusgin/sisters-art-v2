@@ -44,8 +44,13 @@ db-url:
 	@echo "Database url:"
 	@echo ${DATABASE_URL}
 
+build:
+	tsc && \
+	npx tailwindcss -i ./src/styles/input.css -o ./public/css/main.css 
+
 run:
-	@npx nodemon --watch src --ext ts --ignore dist --ignore node_modules --exec "npm run start"
+	npm run dev & \
+	npx tailwindcss -i ./src/styles/input.css -o ./public/css/main.css --watch
 
 test:
 	@echo "Tests are not set up ..."

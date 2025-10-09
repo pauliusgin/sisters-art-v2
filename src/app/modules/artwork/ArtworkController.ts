@@ -20,14 +20,9 @@ import { DeleteArtwork } from "../../../core/write/usecases/artwork/DeleteArtwor
 import { UpdateArtwork } from "../../../core/write/usecases/artwork/UpdateArtwork";
 import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
 import { GetAllArtworks } from "../../../core/read/queries/GetAllArtworks";
-import multer from "multer";
-import { AuthenticatedRequest } from "../../config/AuthenticatedRequest";
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 @injectable()
 @JsonController("/artworks")
-@UseBefore(upload.single("file"))
 export class ArtworkController {
   constructor(
     @inject(CreateArtwork)
