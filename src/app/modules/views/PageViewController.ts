@@ -1,17 +1,17 @@
 import { inject, injectable } from "inversify";
 import { Response } from "express";
-import { Get, Res, JsonController } from "routing-controllers";
+import { Get, Res, JsonController, Post } from "routing-controllers";
 import { LoginFormView } from "../../views/LoginFormView";
 
 @injectable()
-@JsonController("/view")
+@JsonController("/views")
 export class PageViewController {
   constructor(
     @inject(LoginFormView)
     private readonly _loginForm: LoginFormView
   ) {}
 
-  @Get("/login-form")
+  @Post("/login-form")
   async getLogInForm(@Res() res: Response) {
     const view = await this._loginForm.execute();
 

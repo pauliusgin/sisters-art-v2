@@ -45,8 +45,7 @@ db-url:
 	@echo ${DATABASE_URL}
 
 build:
-	tsc && \
-	npx tailwindcss -i ./src/styles/input.css -o ./public/css/main.css 
+	npm run build 
 
 run:
 	npm run dev & \

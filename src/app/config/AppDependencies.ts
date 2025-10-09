@@ -47,7 +47,7 @@ import { UploadsController } from "../modules/storage/UploadsController";
 import { ImagesService } from "../../core/write/domain/services/ImageService";
 import { HandleArtworkCreated } from "../modules/handlers/HandleArtworkCreated";
 import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
-import { PageViewController } from "../modules/html/PageViewController";
+import { PageViewController } from "../modules/views/PageViewController";
 import { LoginFormView } from "../views/LoginFormView";
 
 export class AppDependencies extends Container {

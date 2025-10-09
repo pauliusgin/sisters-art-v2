@@ -6,8 +6,19 @@ export class LoginFormView implements Usecase<void, string> {
   constructor() {}
 
   async execute(): Promise<string> {
-    const response = `<div class="bg-blue-400">Hello there too</div>`;
+    const wildButton = `
+        <button
+          id="this-button"
+          type="button"
+          hx-get="/views/login-form"
+          hx-trigger="click"
+          hx-target="#.wild-button"
+          hx-swap="outerHTML"
+          class="focus:outline-none text-pink font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-white w-50">
+          Le Wild Element Appears..!
+        </button>
+`;
 
-    return response;
+    return wildButton;
   }
 }
