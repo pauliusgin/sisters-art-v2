@@ -22,27 +22,94 @@
     <script src="./js/htmx.min.js" defer></script>
   </head>
   <body
-    class="border-1 border-red-500 min-h-screen bg-[url('/images/brown-floor-1.webp')] bg-contain bg-center flex flex-col align-middle m-0">
-    <div
-      id="navbar"
-      class="h-20 min-w-screen text-center text-red-500 text-xl mt-5 flex flex-col items-center">
-      ... work in progress ...
-      <button
-        id="this-button"
-        type="button"
-        hx-post="/views/login-form"
-        hx-trigger="click"
-        hx-target="#this-button"
-        hx-swap="outerHTML"
-        class="focus:outline-none text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 w-50">
-        Proof Of Concept
-      </button>
-    </div>
-    <div class="ml-2 mr-2 flex flex-col pb-10" id="welcome-section">
-      <h1 data-language="en" class="text-center font-great text-8xl mb-4">
+    class="min-h-screen bg-[url('/images/brown-floor-1.webp')] bg-contain bg-center flex flex-col align-middle mx-[2rem]">
+    <header class="bg-[] mb-10 font-merienda">
+      <div
+        class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-1 items-center justify-end md:justify-between">
+          <nav aria-label="Global" class="hidden md:block">
+            <ul class="flex items-center gap-6 text-sm">
+              <li>
+                <a
+                  class="text-black text-base text-shadow-sm transition pb-1 hover:text-red-500/75 hover:border-b hover: border-b-red-500"
+                  href="#">
+                  Welcome
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="text-black text-base text-shadow-sm transition pb-1 hover:text-orange-500/75 hover:border-b hover: border-b-orange-500"
+                  href="#">
+                  The idea
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="text-black text-base text-shadow-sm pb-1 hover:text-yellow-500/75 hover:border-b hover: border-b-yellow-500"
+                  href="#">
+                  For Whom?
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="text-black text-base text-shadow-sm pb-1 hover:text-green-500/75 hover:border-b hover: border-b-green-500"
+                  href="#">
+                  About
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="text-black text-base text-shadow-sm pb-1 hover:text-cyan-500/75 hover:border-b hover: border-b-cyan-500"
+                  href="#">
+                  Gallery
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="flex items-center gap-4">
+            <div class="sm:flex sm:gap-4">
+              <a
+                class="block border border-black rounded-md bg-none px-5 py-2.5 text-sm font-medium text-black transition hover:text-blue-500 hover:border-purple-500"
+                href="#">
+                Login
+              </a>
+            </div>
+
+            <button
+              class="block border border-black rounded-md bg-none p-2.5 text-black transition hover:text-purple-500/75 hover:border-blue-500 md:hidden">
+              <span class="sr-only">Toggle menu</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-col pb-[10rem] mx-[2rem] sm:m-0" id="welcome-section">
+      <h1
+        data-language="en"
+        class="text-center text-clamp-h1 font-greatvibes text-8xl text-shadow-sm mb-[4rem] mt-[2rem]">
         Sisters' Art Gallery
       </h1>
-      <p class="text-center m-4 p-3 font-merienda" data-language="en">
+      <p
+        class="text-center text-clamp-p mx-[4rem] p-[2rem] font-merienda"
+        data-language="en">
         Welcome to the wonderful world of artistic exploration, discovery and
         imagination! Pencils, crayons, brushes and fingers - we like using
         everything!
@@ -53,6 +120,60 @@
           alt="Sisters"
           id="welcome-image"
           class="text-center w-[clamp(15rem,30vw+1rem,33rem)] mt-8 border-s-0 rounded-2xl shadow-[1px_1px_5px_black] rotate-[4deg]" />
+      </div>
+
+    <!-- IDEA -->
+    <div
+      class="grid grid-cols-2 items-center mx-[2rem] py-[10rem]"
+      id="idea-section">
+      <div class="">
+        <h2
+          data-language="en"
+          class="text-clamp-h2 font-merienda text-center mt-[2rem] text-shadow-sm">
+          Idea
+        </h2>
+        <p
+          data-language="en"
+          class="text-justify text-clamp-p m-4 p-3 font-merienda">
+          &emsp;&emsp;To make an online archive of at least some of our first
+          fleeting artistic attempts and discoveries. So that even in a few
+          years we could visit this gallery and remember how it all began.
+        </p>
+      </div>
+      <div class="px-[5rem] py-[[0]] pb-[max(1rem, 5vw)]">
+        <img
+          src="/images\big-sister-3.webp"
+          alt="Sisters"
+          id="idea-image"
+          class="text-center w-[clamp(15rem,40vw+1rem,40rem)] mt-3 border-s-0 rounded-2xl shadow-[1px_1px_5px_black] rotate-[-4deg]" />
+      </div>
+    </div>
+
+    <!--  -->
+    <div
+      class="grid grid-cols-[0.9fr_1.1fr] items-center py-[10rem] mx-[2rem]"
+      id="whom-section">
+      <div class="text-center px-[5rem] py-[[0]] pb-[max(1rem, 5vw)]">
+        <img
+          src="/images\big-sister-4.webp"
+          alt="Sisters"
+          id="whom-image"
+          class="w-[clamp(15rem, 30vw + 1rem, 33rem)] mt-[3rem] border-s-0 rounded-2xl shadow-[1px_1px_5px_black] rotate-[4deg]" />
+      </div>
+      <div class="text-center">
+        <h2
+          class="text-clamp-h2 font-merienda text-center mt-[2rem] text-shadow-sm"
+          data-language="en">
+          For Whom?
+        </h2>
+        <p
+          data-language="en"
+          class="text-justify text-clamp-p m-4 p-3 font-merienda">
+          &emsp;&emsp;Mostly for family and friends, scattered around the
+          country and the world. Also for anyone interested in children's
+          artistic experiments and lucky enough to happen to wander into our
+          small corner of the internet.
+        </p>
       </div>
     </div>
   </body>

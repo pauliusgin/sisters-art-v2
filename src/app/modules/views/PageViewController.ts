@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { Response } from "express";
-import { Get, Res, JsonController, Post } from "routing-controllers";
+import { Res, JsonController, Post } from "routing-controllers";
 import { LoginFormView } from "../../views/LoginFormView";
 
 @injectable()
