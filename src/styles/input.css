@@ -25,4 +25,17 @@
   .text-clamp-p {
     font-size: clamp(1.375rem, 1.3295rem + 0.1818vw, 1.5rem);
   }
+
+  .image-clamp-welcome {
+    width: clamp(15rem, 30vw + 1rem, 33rem);
+  }
+  .image-clamp-idea {
+    width: clamp(15rem, 40vw + 1rem, 40rem);
+  }
+  .image-clamp-whom {
+    width: clamp(15rem, 30vw + 1rem, 33rem);
+  }
+  .image-clamp-about {
+    width: clamp(12rem, 60vw + 1rem, 70rem);
+  }
 }
