@@ -26,7 +26,23 @@
     <header
       class="sticky top-0 z-[99] bg-[rgba(201,180,158,0.4)] backdrop-blur-[3px] mb-10 shadow font-merienda">
       <div
-        class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
+        class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-[2rem]">
+        <button
+          class="block border border-black rounded-md bg-none p-2.5 text-black transition focus:outline-none focus:ring-1 focus:ring-blue-500 focus:rounded-md hover:text-purple-500/75 hover:border-blue-500 md:hidden">
+          <span class="sr-only">Toggle menu</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
         <div class="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" class="hidden md:block">
             <ul class="flex items-center gap-6 text-sm">
@@ -80,29 +96,12 @@
                 Login
               </a>
             </div>
-
-            <button
-              class="block border border-black rounded-md bg-none p-2.5 text-black transition hover:text-purple-500/75 hover:border-blue-500 md:hidden">
-              <span class="sr-only">Toggle menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
           </div>
         </div>
       </div>
     </header>
 
-    <div class="flex flex-col align-middle mx-0 sm:mx-[2rem] md:mx-[4rem]">
+    <div class="flex flex-col align-middle px-[1rem] sm:px-[2rem] md:mx-[4rem]">
       <!-- WELCOME -->
       <div
         class="flex flex-col pb-[10rem] mx-0 md:mx-[1rem] lg-[2rem]"
@@ -210,16 +209,22 @@
       </div>
 
       <!-- GALLERY-->
-      <div class="section" id="gallery">
+      <div
+        hx-get="/views/gallery"
+        hx-trigger="load"
+        hx-target="#gallery-items"
+        class="section"
+        id="gallery">
         <div class="div-main-text div-gallery-text">
           <h2
             data-language="en"
-            class="text-clamp-h2 font-merienda text-center pt-[2rem] text-shadow-sm">
+            class="text-clamp-h2 font-merienda text-center pt-[2rem] pb-[5rem] text-shadow-sm">
             The Gallery
           </h2>
         </div>
-        <div id="div-gallery-items"></div>
-        <div id="empty-gallery" class="pt-[5rem] pb-[max(1rem,_5vw)]">
+        <div
+          id="gallery-items"
+          class="flex flex-row flex-wrap justify-evenly gap-[1rem]">
           <p
             data-language="en"
             class="text-center text-clamp-p m-[1em,_0] p-[2rem] font-merienda text-shadow-sm">

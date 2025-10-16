@@ -1,12 +1,14 @@
 import { differenceInYears } from "date-fns";
-export function calculateAge(
-    artworkDate: string | Date,
-    birthDate: string | Date
-): number {
-    const birthday = new Date(birthDate);
-    const artCreatedOn = new Date(artworkDate);
+export function calculateAge(payload: {
+  artCreatedAt: string | Date;
+  birthDate: string | Date;
+}): number {
+  const { artCreatedAt, birthDate } = payload;
 
-    const age = differenceInYears(artCreatedOn, birthday);
+  const birthday = new Date(birthDate);
+  const artCreatedOn = new Date(artCreatedAt);
 
-    return age;
+  const age = differenceInYears(artCreatedOn, birthday);
+
+  return age;
 }

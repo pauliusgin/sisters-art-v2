@@ -49,6 +49,7 @@ import { HandleArtworkCreated } from "../modules/handlers/HandleArtworkCreated";
 import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
 import { PageViewController } from "../modules/views/PageViewController";
 import { LoginFormView } from "../views/LoginFormView";
+import { GalleryView } from "../views/GalleryView";
 
 export class AppDependencies extends Container {
   async init() {
@@ -63,15 +64,15 @@ export class AppDependencies extends Container {
     const dataSource = await AppDataSource.initialize();
     const entityManager = dataSource.manager;
 
-    const encodedFirebaseCredentials = process.env.FIREBASE_CREDENTIALS;
-    if (!encodedFirebaseCredentials) {
+    const encodedCredentials = process.env.FIREBASE_CREDENTIALS;
+    if (!encodedCredentials) {
       throw new Error('"FIREBASE_CREDENTIALS" are required');
     }
-    const decodedFirebaseCredentials = Buffer.from(
-      encodedFirebaseCredentials,
+    const decodedCredentials = Buffer.from(
+      encodedCredentials,
       "base64"
-    ).toString("ascii");
-    const firebaseCredentials = JSON.parse(decodedFirebaseCredentials);
+    ).toString("utf-8");
+    const firebaseCredentials = JSON.parse(decodedCredentials);
     const firebaseAdmin = admin.initializeApp({
       credential: admin.credential.cert(firebaseCredentials),
     });
@@ -110,6 +111,7 @@ export class AppDependencies extends Container {
 
     // views
     this.bind(LoginFormView).toSelf();
+    this.bind(GalleryView).toSelf();
 
     // controllers
     this.bind(UserController).toSelf();

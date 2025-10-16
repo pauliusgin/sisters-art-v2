@@ -39,7 +39,7 @@ export class CreateArtwork implements Usecase<CreateArtworkInput, Artwork> {
       method,
       material,
       fileUrl,
-      date: date ?? new Date(),
+      date,
     });
 
     const event = new ArtworkCreated({

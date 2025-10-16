@@ -56,8 +56,14 @@ export class Artwork {
       date,
       authorAge:
         author === Author.JOGAILE
-          ? calculateAge(date, Artwork.jogaileBirthday)
-          : calculateAge(date, Artwork.viltauteBirthday),
+          ? calculateAge({
+              artCreatedAt: date,
+              birthDate: Artwork.jogaileBirthday,
+            })
+          : calculateAge({
+              artCreatedAt: date,
+              birthDate: Artwork.viltauteBirthday,
+            }),
     });
 
     return artwork;
@@ -81,5 +87,15 @@ export class Artwork {
     this.props.material = material;
     this.props.fileUrl = fileUrl;
     this.props.date = date;
+    this.props.authorAge =
+      author === Author.JOGAILE
+        ? calculateAge({
+            artCreatedAt: date,
+            birthDate: Artwork.jogaileBirthday,
+          })
+        : calculateAge({
+            artCreatedAt: date,
+            birthDate: Artwork.viltauteBirthday,
+          });
   }
 }

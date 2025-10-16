@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.16",
+    "@types/ejs": "^3.1.5",
     "@types/events": "^3.0.3",
     "@types/jest": "^29.5.5",
     "@types/morgan": "^1.9.9",

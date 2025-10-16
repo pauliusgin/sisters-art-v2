@@ -1,4 +1,4 @@
-import { ArtworkReadModel } from "../../../../core/read/models/ArtworkReadModel";
+import { ArtworkReadModel } from "../../../../core";
 import { Mapper } from "../../Mapper";
 
 export class ArtworkReadModelMapper implements Mapper<any, ArtworkReadModel> {
@@ -7,6 +7,7 @@ export class ArtworkReadModelMapper implements Mapper<any, ArtworkReadModel> {
       id: raw.id,
       title: raw.title,
       author: raw.author,
+      authorAge: raw.authorAge,
       type: raw.type,
       method: raw.method,
       material: raw.material,

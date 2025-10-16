@@ -6,54 +6,59 @@ import { ArtworkReadModelMapper } from "./ArtworkReadModelMapper";
 
 @injectable()
 export class PostgresArtworkReadModelRepository
-    implements ArtworkReadModelRepository
+  implements ArtworkReadModelRepository
 {
-    private artworkReadModelMapper: ArtworkReadModelMapper;
+  private artworkReadModelMapper: ArtworkReadModelMapper;
 
-    constructor(private readonly _entityManager: EntityManager) {
-        this.artworkReadModelMapper = new ArtworkReadModelMapper();
-    }
+  constructor(private readonly _entityManager: EntityManager) {
+    this.artworkReadModelMapper = new ArtworkReadModelMapper();
+  }
 
-    async getAll(): Promise<ArtworkReadModel[]> {
-        const result: ArtworkReadModel[] = await this._entityManager.query(
-            `
-        SELECT
-            art.id,
-            art.title,
-            art.author,
-            art.type,
-            art.method,
-            art.material,
-            art.image,
-            art."date"
-        FROM
-            artworks art 
+  async getAll(): Promise<ArtworkReadModel[]> {
+    const result: ArtworkReadModel[] = await this._entityManager.query(
+      `
+    SELECT
+      art.id,
+      art.title,
+      art.author,
+      art."authorAge",
+      art.type,
+      art.method,
+      art.material,
+      art."fileUrl",
+      art."date"
+    FROM
+      artworks art 
+    ORDER BY 
+      art."createdAt"
     `
-        );
-        return result.map((artwork) =>
-            this.artworkReadModelMapper.toDomain(artwork)
-        );
-    }
+    );
 
-    async getById(artworkId: string): Promise<ArtworkReadModel> {
-        const result: ArtworkReadModel[] = await this._entityManager.query(
-            `
+    return result.map((artwork) =>
+      this.artworkReadModelMapper.toDomain(artwork)
+    );
+  }
+
+  async getById(artworkId: string): Promise<ArtworkReadModel> {
+    const result: ArtworkReadModel[] = await this._entityManager.query(
+      `
         SELECT
             art.id,
             art.title,
             art.author,
+            art."authorAge"
             art.type,
             art.method,
             art.material,
-            art.image,
+            art."fileUrl",
             art."date"
         FROM
             artworks art 
         WHERE
             art.id = $1
   `,
-            [artworkId]
-        );
-        return this.artworkReadModelMapper.toDomain(result[0]);
-    }
+      [artworkId]
+    );
+    return this.artworkReadModelMapper.toDomain(result[0]);
+  }
 }

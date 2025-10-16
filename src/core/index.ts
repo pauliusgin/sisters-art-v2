@@ -14,3 +14,4 @@ export { CreateArtwork } from "./write/usecases/artwork/CreateArtwork";
 export { UpdateArtwork } from "./write/usecases/artwork/UpdateArtwork";
 export { DeleteArtwork } from "./write/usecases/artwork/DeleteArtwork";
 export { GetAllArtworks } from "./read/queries/GetAllArtworks";
+export { ArtworkReadModel } from "./read/models/ArtworkReadModel";

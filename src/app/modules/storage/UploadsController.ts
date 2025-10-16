@@ -18,7 +18,6 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 @injectable()
-@UseBefore(upload.single("file"))
 @JsonController("/uploads")
 export class UploadsController {
   constructor(
@@ -27,6 +26,7 @@ export class UploadsController {
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
+  @UseBefore(upload.single("file"))
   @Post("/")
   async uploadFile(
     @Req() req: AuthenticatedUser,

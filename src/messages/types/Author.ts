@@ -1,5 +1,5 @@
 export enum Author {
-    VILTAUTE = "Viltaute",
-    JOGAILE = "Jogaile",
-    BOTH = "Viltaute and Jogaile",
+  VILTAUTE = "Viltautė",
+  JOGAILE = "Jogailė",
+  BOTH = "Viltautė and Jogailė",
 }
