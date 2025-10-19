@@ -46,10 +46,13 @@ import { UploadEntity } from "../../adapters/repositories/storage/UploadEntity";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { ImagesService } from "../../core/write/domain/services/ImageService";
 import { HandleArtworkCreated } from "../modules/handlers/HandleArtworkCreated";
+import { Gallery } from "../pageUI/Gallery";
+import { LoginFormClosed } from "../pageUI/LoginFormClosed";
+import { PageUIController } from "../modules/pageUI/PageUIController";
 import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
-import { PageViewController } from "../modules/views/PageViewController";
-import { LoginFormView } from "../views/LoginFormView";
-import { GalleryView } from "../views/GalleryView";
+import { LoginForm } from "../pageUI/LoginForm";
+import { UserGuestControls } from "../pageUI/UserGuestControls";
+import { UserLoggedInControls } from "../pageUI/UserLoggedInControls";
 
 export class AppDependencies extends Container {
   async init() {
@@ -109,15 +112,18 @@ export class AppDependencies extends Container {
 
     this.bind(AuthenticationMiddleware).toSelf();
 
-    // views
-    this.bind(LoginFormView).toSelf();
-    this.bind(GalleryView).toSelf();
+    // UI
+    this.bind(LoginForm).toSelf();
+    this.bind(LoginFormClosed).toSelf();
+    this.bind(UserGuestControls).toSelf();
+    this.bind(UserLoggedInControls).toSelf();
+    this.bind(Gallery).toSelf();
 
     // controllers
     this.bind(UserController).toSelf();
     this.bind(ArtworkController).toSelf();
     this.bind(UploadsController).toSelf();
-    this.bind(PageViewController).toSelf();
+    this.bind(PageUIController).toSelf();
 
     // user
     this.bind(GetUserById).toSelf();

@@ -1,11 +1,16 @@
-import { Body, JsonController, Post, Res } from "routing-controllers";
+import { Body, JsonController, Post, Req, Res } from "routing-controllers";
 import { inject, injectable } from "inversify";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { LoginWithEmail } from "../../../core/write/usecases/user/LoginWithEmail";
 import { LoginWithEmailCommand } from "./commands/LoginWithEmailCommand";
 import { validateOrReject } from "class-validator";
 import { SignUp } from "../../../core/write/usecases/user/SignUp";
 import { SignUpCommand } from "./commands/SignUpCommand";
+import { cookieOptions } from "../../config/config";
+import { deleteToken, setToken } from "../../utils/token";
+import { UserGuestControls } from "../../pageUI/UserGuestControls";
+import { UserLoggedInControls } from "../../pageUI/UserLoggedInControls";
+import { LoginFormClosed } from "../../pageUI/LoginFormClosed";
 
 @injectable()
 @JsonController("/users")
@@ -14,7 +19,13 @@ export class UserController {
     @inject(SignUp)
     private readonly _signUp: SignUp,
     @inject(LoginWithEmail)
-    private readonly _loginWithEmail: LoginWithEmail
+    private readonly _loginWithEmail: LoginWithEmail,
+    @inject(UserGuestControls)
+    private readonly _userGuestControls: UserGuestControls,
+    @inject(UserLoggedInControls)
+    private readonly _userLoggedInControls: UserLoggedInControls,
+    @inject(LoginFormClosed)
+    private readonly _loginFormClosed: LoginFormClosed
   ) {}
 
   @Post("/signup")
@@ -45,6 +56,24 @@ export class UserController {
       password,
     });
 
-    return res.status(200).send(result);
+    const userLoggedInControls = await this._userLoggedInControls.execute();
+    const loginFormClosed = await this._loginFormClosed.execute();
+
+    setToken({
+      res,
+      token: result.token,
+      cookieOptions,
+    });
+
+    return res.status(200).send(userLoggedInControls + loginFormClosed);
+  }
+
+  @Post("/logout")
+  async logout(@Req() req: Request, @Res() res: Response) {
+    deleteToken({ res });
+
+    const guestControls = await this._userGuestControls.execute();
+
+    return res.status(200).send(guestControls);
   }
 }

@@ -9,7 +9,7 @@ import cors from "cors";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { pendingUploadsCleanupCron } from "../cron/PendingUploadsCleanupCron";
-import { PageViewController } from "../modules/views/PageViewController";
+import { PageUIController } from "../modules/pageUI/PageUIController";
 
 export async function configureExpress(app: Application) {
   app.use(morgan("combined"));
@@ -26,7 +26,7 @@ export async function configureExpress(app: Application) {
       UserController,
       ArtworkController,
       UploadsController,
-      PageViewController,
+      PageUIController,
     ],
     middlewares: [AuthenticationMiddleware],
   });
