@@ -9,7 +9,7 @@ export class LoginForm implements Usecase<void, string> {
     const loginForm = `
     <div
       id="login-form"
-      class="fixed inset-0 z-20 grid place-content-center bg-[rgba(201,180,158,0.4)] backdrop-blur-[3px] p-4"
+      class="fixed inset-0 z-[20] grid place-content-center bg-[rgba(201,180,158,0.4)] backdrop-blur-[3px] p-4"
       aria-modal="true">
       <div
         class="w-full max-w-md border border-black rounded-md bg-[rgba(201,180,158,0.8)] p-6 shadow-lg">

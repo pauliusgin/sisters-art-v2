@@ -69,7 +69,7 @@ export class UserController {
   }
 
   @Post("/logout")
-  async logout(@Req() req: Request, @Res() res: Response) {
+  async logout(@Res() res: Response) {
     deleteToken({ res });
 
     const guestControls = await this._userGuestControls.execute();

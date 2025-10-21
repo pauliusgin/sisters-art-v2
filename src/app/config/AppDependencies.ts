@@ -53,6 +53,10 @@ import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
 import { LoginForm } from "../pageUI/LoginForm";
 import { UserGuestControls } from "../pageUI/UserGuestControls";
 import { UserLoggedInControls } from "../pageUI/UserLoggedInControls";
+import { HamburgerMenuOpen } from "../pageUI/HamburgerMenuOpen";
+import { HamburgerMenuClosed } from "../pageUI/HamburgerMenuClosed";
+import { HamburgerButton } from "../pageUI/HamburgerButton";
+import { HamburgerButtonX } from "../pageUI/HamburgerButtonX";
 
 export class AppDependencies extends Container {
   async init() {
@@ -117,6 +121,10 @@ export class AppDependencies extends Container {
     this.bind(LoginFormClosed).toSelf();
     this.bind(UserGuestControls).toSelf();
     this.bind(UserLoggedInControls).toSelf();
+    this.bind(HamburgerButton).toSelf();
+    this.bind(HamburgerButtonX).toSelf();
+    this.bind(HamburgerMenuOpen).toSelf();
+    this.bind(HamburgerMenuClosed).toSelf();
     this.bind(Gallery).toSelf();
 
     // controllers
