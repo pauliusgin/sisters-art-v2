@@ -57,6 +57,10 @@ import { HamburgerMenuOpen } from "../pageUI/HamburgerMenuOpen";
 import { HamburgerMenuClosed } from "../pageUI/HamburgerMenuClosed";
 import { HamburgerButton } from "../pageUI/HamburgerButton";
 import { HamburgerButtonX } from "../pageUI/HamburgerButtonX";
+import { UploadForm } from "../pageUI/UploadForm";
+import { UploadFormClosed } from "../pageUI/UploadFormClosed";
+import { UploadPreview } from "../pageUI/UploadPreview";
+import { UploadHiddenInput } from "../pageUI/UploadHiddenInput";
 
 export class AppDependencies extends Container {
   async init() {
@@ -125,6 +129,10 @@ export class AppDependencies extends Container {
     this.bind(HamburgerButtonX).toSelf();
     this.bind(HamburgerMenuOpen).toSelf();
     this.bind(HamburgerMenuClosed).toSelf();
+    this.bind(UploadForm).toSelf();
+    this.bind(UploadFormClosed).toSelf();
+    this.bind(UploadPreview).toSelf();
+    this.bind(UploadHiddenInput).toSelf();
     this.bind(Gallery).toSelf();
 
     // controllers

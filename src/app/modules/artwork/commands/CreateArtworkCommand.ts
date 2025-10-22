@@ -1,4 +1,4 @@
-import { Expose, plainToClass } from "class-transformer";
+import { Expose, plainToClass, Transform } from "class-transformer";
 import {
   IsEnum,
   IsISO8601,
@@ -17,7 +17,10 @@ import {
 export class CreateArtworkCommand {
   @Expose()
   @IsString()
-  @Length(1)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+  })
   title: string;
 
   @Expose()
@@ -25,22 +28,30 @@ export class CreateArtworkCommand {
   author: Author;
 
   @Expose()
-  @IsOptional()
   @IsEnum(ArtworkType)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+  })
   type: ArtworkType;
 
   @Expose()
-  @IsOptional()
   @IsEnum(ArtworkMethod)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+  })
   method: ArtworkMethod;
 
   @Expose()
-  @IsOptional()
   @IsEnum(ArtworkMaterial)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+  })
   material: ArtworkMaterial;
 
   @Expose()
-  @IsOptional()
   @IsISO8601()
   date: Date;
 

@@ -22,11 +22,12 @@ export class ArtworkEntity {
   @Column({
     nullable: true,
     type: "varchar",
+    default: "No title",
   })
   title: string;
 
   @Column({
-    nullable: true,
+    nullable: false,
     type: "enum",
     enum: Author,
   })
@@ -40,10 +41,9 @@ export class ArtworkEntity {
   authorAge: number;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: "enum",
     enum: ArtworkType,
-    default: ArtworkType.DRAWING,
   })
   type: ArtworkType;
 
@@ -68,7 +68,7 @@ export class ArtworkEntity {
   fileUrl: string;
 
   @Column({
-    nullable: true,
+    nullable: false,
     type: "timestamp",
   })
   date: Date;

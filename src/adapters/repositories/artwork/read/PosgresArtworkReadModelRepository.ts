@@ -30,7 +30,7 @@ export class PostgresArtworkReadModelRepository
     FROM
       artworks art 
     ORDER BY 
-      art."createdAt"
+      art.date DESC
     `
     );
 

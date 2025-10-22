@@ -4,4 +4,5 @@ export enum ArtworkMaterial {
   CLAY = "clay",
   PLAY_DOUGH = "play-dough",
   DIGITAL = "digital",
+  OTHER = "Other",
 }

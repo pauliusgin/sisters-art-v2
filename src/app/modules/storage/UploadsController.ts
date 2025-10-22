@@ -14,6 +14,8 @@ import { UploadFile } from "../../../core";
 import { AuthenticatedUser } from "../../types/AuthenticatedUser";
 import multer from "multer";
 import { UploadFileCommand } from "./commands/UploadFileCommand";
+import { UploadPreview } from "../../pageUI/UploadPreview";
+import { UploadHiddenInput } from "../../pageUI/UploadHiddenInput";
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -22,7 +24,11 @@ const upload = multer({ storage: storage });
 export class UploadsController {
   constructor(
     @inject(UploadFile)
-    private readonly _uploadFile: UploadFile
+    private readonly _uploadFile: UploadFile,
+    @inject(UploadPreview)
+    private readonly _uploadPreview: UploadPreview,
+    @inject(UploadHiddenInput)
+    private readonly _uploadHiddenInput: UploadHiddenInput
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
@@ -39,7 +45,7 @@ export class UploadsController {
     const { fileType, usage } = body;
     const { size, buffer } = req.file;
 
-    const result = await this._uploadFile.execute({
+    const upload = await this._uploadFile.execute({
       userId: req.identity.id,
       fileType,
       usage,
@@ -49,6 +55,9 @@ export class UploadsController {
       },
     });
 
-    return res.status(201).send({ url: result.props.url });
+    const preview = await this._uploadPreview.execute(upload.props.url);
+    const hiddenInput = await this._uploadHiddenInput.execute(upload.props.url);
+
+    return res.status(201).send(preview + hiddenInput);
   }
 }

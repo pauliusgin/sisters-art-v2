@@ -20,6 +20,8 @@ import { DeleteArtwork } from "../../../core/write/usecases/artwork/DeleteArtwor
 import { UpdateArtwork } from "../../../core/write/usecases/artwork/UpdateArtwork";
 import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
 import { GetAllArtworks } from "../../../core/read/queries/GetAllArtworks";
+import { Gallery } from "../../pageUI/Gallery";
+import { UploadFormClosed } from "../../pageUI/UploadFormClosed";
 
 @injectable()
 @JsonController("/artworks")
@@ -32,7 +34,11 @@ export class ArtworkController {
     @inject(UpdateArtwork)
     private readonly _updateArtwork: UpdateArtwork,
     @inject(GetAllArtworks)
-    private readonly _getAllArtworks: GetAllArtworks
+    private readonly _getAllArtworks: GetAllArtworks,
+    @inject(Gallery)
+    private readonly _gallery: Gallery,
+    @inject(UploadFormClosed)
+    private readonly _uploadFormClosed: UploadFormClosed
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
@@ -42,7 +48,7 @@ export class ArtworkController {
     await validateOrReject(body);
     const { title, author, type, material, method, date, fileUrl } = body;
 
-    const result = await this._createArtwork.execute({
+    await this._createArtwork.execute({
       title,
       author,
       type,
@@ -52,7 +58,10 @@ export class ArtworkController {
       fileUrl,
     });
 
-    return res.status(201).send(result.props);
+    const gallery = await this._gallery.execute();
+    const uploadFormClosed = await this._uploadFormClosed.execute();
+
+    return res.status(201).send(gallery + uploadFormClosed);
   }
 
   @UseBefore(AuthenticationMiddleware)

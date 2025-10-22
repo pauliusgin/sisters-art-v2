@@ -4,19 +4,21 @@ import { ArtworkRepository } from "../../domain/repositories/ArtworkRepository";
 import { Usecase } from "../Usecase";
 import { AppIdentifiers } from "../../../AppIdentifiers";
 import { Author } from "../../../../messages/types/Author";
-import { ArtworkType } from "../../../../messages/types/ArtworkType";
-import { ArtworkMethod } from "../../../../messages/types/ArtworkMethod";
-import { ArtworkMaterial } from "../../../../messages/types/ArtworkMaterial";
-import { ArtworkCreated } from "../../../../messages";
+import {
+  ArtworkCreated,
+  ArtworkMaterial,
+  ArtworkMethod,
+  ArtworkType,
+} from "../../../../messages";
 import { EventDispatcher, MessageIdentifiers } from "ddd-messaging-bus";
 
 export interface CreateArtworkInput {
-  title: string;
   author: Author;
+  title?: string;
   type?: ArtworkType;
   method?: ArtworkMethod;
   material?: ArtworkMaterial;
-  date?: Date;
+  date: Date;
   fileUrl: string;
 }
 

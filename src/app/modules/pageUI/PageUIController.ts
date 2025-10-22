@@ -10,6 +10,8 @@ import { HamburgerMenuOpen } from "../../pageUI/HamburgerMenuOpen";
 import { HamburgerMenuClosed } from "../../pageUI/HamburgerMenuClosed";
 import { HamburgerButton } from "../../pageUI/HamburgerButton";
 import { HamburgerButtonX } from "../../pageUI/HamburgerButtonX";
+import { UploadForm } from "../../pageUI/UploadForm";
+import { UploadFormClosed } from "../../pageUI/UploadFormClosed";
 
 @injectable()
 @JsonController("/ui")
@@ -31,6 +33,10 @@ export class PageUIController {
     private readonly _hamburgerButton: HamburgerButton,
     @inject(HamburgerButtonX)
     private readonly _hamburgerButtonX: HamburgerButtonX,
+    @inject(UploadForm)
+    private readonly _uploadForm: UploadForm,
+    @inject(UploadFormClosed)
+    private readonly _uploadFormClosed: UploadFormClosed,
     @inject(Gallery)
     private readonly _galleryView: Gallery
   ) {}
@@ -76,6 +82,20 @@ export class PageUIController {
     const hamburgerButton = await this._hamburgerButton.execute();
 
     return res.status(200).send(hamburgerMenuClosed + hamburgerButton);
+  }
+
+  @Get("/upload-form")
+  async openUploadForm(@Res() res: Response) {
+    const uploadForm = await this._uploadForm.execute();
+
+    return res.status(200).send(uploadForm);
+  }
+
+  @Get("/upload-form-closed")
+  async closeUploadForm(@Res() res: Response) {
+    const uploadFormClosed = await this._uploadFormClosed.execute();
+
+    return res.status(200).send(uploadFormClosed);
   }
 
   @Get("/gallery")
