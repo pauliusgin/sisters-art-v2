@@ -20,6 +20,7 @@ export class CreateArtworkCommand {
   @IsOptional()
   @Transform(({ value }) => {
     if (value === "") return null;
+    return value;
   })
   title: string;
 
@@ -32,6 +33,7 @@ export class CreateArtworkCommand {
   @IsOptional()
   @Transform(({ value }) => {
     if (value === "") return null;
+    return value;
   })
   type: ArtworkType;
 
@@ -40,6 +42,7 @@ export class CreateArtworkCommand {
   @IsOptional()
   @Transform(({ value }) => {
     if (value === "") return null;
+    return value;
   })
   method: ArtworkMethod;
 
@@ -48,11 +51,15 @@ export class CreateArtworkCommand {
   @IsOptional()
   @Transform(({ value }) => {
     if (value === "") return null;
+    return value;
   })
   material: ArtworkMaterial;
 
   @Expose()
   @IsISO8601()
+  @Transform(({ value }) => {
+    return value.split("T")[0] + "T12:00:00.000Z";
+  })
   date: Date;
 
   @Expose()

@@ -21,8 +21,10 @@ export class Gallery implements Usecase<void, string> {
       `
     <% artworks.forEach(a => { %>
       <div class="flex flex-col items-center text-center max-w-[20rem]">
-        <img class="max-w-[15rem] max-h-[15rem] rounded-md image-shadow mb-[1rem]" 
-             src="<%= a.fileUrl %>" alt="<%= a.title %>">
+        <img 
+          class="max-w-[15rem] max-h-[15rem] rounded-md image-shadow mb-[1rem]" 
+          src="<%= a.fileUrl %>" alt="<%= a.title %>"
+          loading="lazy">
         <p class="text-xl font-merienda text-shadow-sm"><%= a.author %> (<%= a.authorAge%> y/o)</p>
         <p class="font-merienda text-shadow-sm">"<%= a.title %>"</p>
         <p class="font-merienda text-xs text-shadow-sm"><%= a.date.toISOString().slice(0, 10) %></p>

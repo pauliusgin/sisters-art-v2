@@ -36,7 +36,6 @@ export class ArtworkEntity {
   @Column({
     nullable: true,
     type: "int",
-    default: 0,
   })
   authorAge: number;
 

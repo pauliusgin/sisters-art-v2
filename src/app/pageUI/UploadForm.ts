@@ -75,6 +75,7 @@ export class UploadForm implements Usecase<void, string> {
               <option value="">Please select</option>
               <option value="Viltautė">Viltautė</option>
               <option value="Jogailė">Jogailė</option>
+              <option value="Viltautė and Jogailė">Viltautė and Jogailė</option>
             </select>
           </label>
 

@@ -47,7 +47,10 @@ export class ImagesService {
   async convertToWebp(
     file: FileData
   ): Promise<{ buffer: Buffer; mime: string }> {
-    const webpBuffer = await sharp(file.buffer).webp().toBuffer();
+    const webpBuffer = await sharp(file.buffer)
+      .resize(1024, 1024, { fit: sharp.fit.inside })
+      .webp()
+      .toBuffer();
 
     return {
       buffer: webpBuffer,

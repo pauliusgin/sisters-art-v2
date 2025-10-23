@@ -1,8 +1,8 @@
 export enum ArtworkMaterial {
-  PAPER = "paper",
-  CARDBOARD = "cardboard",
-  CLAY = "clay",
-  PLAY_DOUGH = "play-dough",
-  DIGITAL = "digital",
+  PAPER = "Paper",
+  CARDBOARD = "Cardboard",
+  CLAY = "Clay",
+  PLAY_DOUGH = "Play-dough",
+  DIGITAL = "Digital",
   OTHER = "Other",
 }
