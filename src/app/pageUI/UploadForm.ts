@@ -9,7 +9,7 @@ export class UploadForm implements Usecase<void, string> {
     const uploadForm = `
     <div
       id="upload-form"
-      class="fixed inset-0 z-[999] flex items-start md:items-center justify-center  overflow-y-auto bg-[rgba(201,180,158,0.4)] backdrop-blur-[3px] p-4"
+      class="fixed inset-0 z-[999] flex items-start lg:items-center justify-center  overflow-y-auto bg-[rgba(201,180,158,0.4)] backdrop-blur-[3px] p-4"
       aria-modal="true">
       <div
         class="w-full max-w-md border border-black rounded-md bg-[rgba(201,180,158,0.8)] p-6 shadow-lg relative my-8">
@@ -108,7 +108,7 @@ export class UploadForm implements Usecase<void, string> {
                 <option value="Drawing">Drawing</option>
                 <option value="Sculpture">Sculpture</option>
                 <option value="Cardboard">Cardboard</option>
-                <option value="Cardboard Drawing">Cardboard drawing</option>
+                <option value="Cardboard drawing">Cardboard drawing</option>
                 <option value="Coloring">Coloring</option>
                 <option value="Other">Other</option>
               </select>
@@ -121,14 +121,14 @@ export class UploadForm implements Usecase<void, string> {
                 class="text-sm font-merienda mt-0.5 mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-blue-500 focus:rounded-md sm:text-sm">
                 <option value="">Please select</option>
                 <option value="Watercolor">Watercolor</option>
-                <option value="Felt top pen">Felt tip pen</option>
+                <option value="Felt-tip pen">Felt tip pen</option>
                 <option value="Pencil">Pencil</option>
                 <option value="Crayon">Crayon</option>
                 <option value="Gouache">Gouache</option>
                 <option value="Moulding">Moulding</option>
-                <option value="Cut and paste">Cut and paste</option>
+                <option value="Cut-and-paste">Cut and paste</option>
                 <option value="Digital">Digital</option>
-                <option value="Finger Paint">Finger paint</option>
+                <option value="Finger paint">Finger paint</option>
                 <option value="Other">Other</option>
               </select>
             </label>

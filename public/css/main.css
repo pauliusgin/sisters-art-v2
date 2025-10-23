@@ -1400,10 +1400,6 @@ video {
     display: none;
   }
 
-  .md\:items-center {
-    align-items: center;
-  }
-
   .md\:justify-between {
     justify-content: space-between;
   }
@@ -1414,6 +1410,10 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .lg\:items-center {
+    align-items: center;
+  }
+
   .lg\:p-\[2rem\] {
     padding: 2rem;
   }

@@ -35,9 +35,9 @@ export class ArtworkEntity {
 
   @Column({
     nullable: true,
-    type: "int",
+    type: "jsonb",
   })
-  authorAge: number;
+  authorAge: number[];
 
   @Column({
     nullable: true,

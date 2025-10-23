@@ -11,7 +11,7 @@ export interface ArtworkProperties {
   id: string;
   title?: string;
   author: Author;
-  authorAge: number;
+  authorAge: number[];
   type?: ArtworkType;
   method?: ArtworkMethod;
   material?: ArtworkMaterial;
@@ -54,16 +54,10 @@ export class Artwork {
       material,
       fileUrl,
       date,
-      authorAge:
-        author === Author.JOGAILE
-          ? calculateAge({
-              artCreatedAt: date,
-              birthDate: Artwork.jogaileBirthday,
-            })
-          : calculateAge({
-              artCreatedAt: date,
-              birthDate: Artwork.viltauteBirthday,
-            }),
+      authorAge: calculateAge({
+        author,
+        artCreatedAt: date,
+      }),
     });
 
     return artwork;
@@ -87,15 +81,9 @@ export class Artwork {
     this.props.material = material;
     this.props.fileUrl = fileUrl;
     this.props.date = date;
-    this.props.authorAge =
-      author === Author.JOGAILE
-        ? calculateAge({
-            artCreatedAt: date,
-            birthDate: Artwork.jogaileBirthday,
-          })
-        : calculateAge({
-            artCreatedAt: date,
-            birthDate: Artwork.viltauteBirthday,
-          });
+    this.props.authorAge = calculateAge({
+      author,
+      artCreatedAt: date,
+    });
   }
 }
