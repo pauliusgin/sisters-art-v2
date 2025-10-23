@@ -48,6 +48,7 @@ export class ImagesService {
     file: FileData
   ): Promise<{ buffer: Buffer; mime: string }> {
     const webpBuffer = await sharp(file.buffer)
+      .rotate()
       .resize(1024, 1024, { fit: sharp.fit.inside })
       .webp()
       .toBuffer();
