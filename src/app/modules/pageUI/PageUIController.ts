@@ -2,7 +2,6 @@ import { inject, injectable } from "inversify";
 import { Request, Response } from "express";
 import { Res, JsonController, Get, Req } from "routing-controllers";
 import { LoginForm } from "../../pageUI/LoginForm";
-import { Gallery } from "../../pageUI/Gallery";
 import { LoginFormClosed } from "../../pageUI/LoginFormClosed";
 import { UserGuestControls } from "../../pageUI/UserGuestControls";
 import { UserLoggedInControls } from "../../pageUI/UserLoggedInControls";
@@ -12,6 +11,9 @@ import { HamburgerButton } from "../../pageUI/HamburgerButton";
 import { HamburgerButtonX } from "../../pageUI/HamburgerButtonX";
 import { UploadForm } from "../../pageUI/UploadForm";
 import { UploadFormClosed } from "../../pageUI/UploadFormClosed";
+import { checkToken } from "../../utils/token";
+import { GalleryForGuest } from "../../pageUI/GalleryForGuest";
+import { GalleryForLoggedIn } from "../../pageUI/GalleryForLoggedIn";
 
 @injectable()
 @JsonController("/ui")
@@ -37,8 +39,10 @@ export class PageUIController {
     private readonly _uploadForm: UploadForm,
     @inject(UploadFormClosed)
     private readonly _uploadFormClosed: UploadFormClosed,
-    @inject(Gallery)
-    private readonly _galleryView: Gallery
+    @inject(GalleryForGuest)
+    private readonly _galleryForGuest: GalleryForGuest,
+    @inject(GalleryForLoggedIn)
+    private readonly _galleryForLoggedIn: GalleryForLoggedIn
   ) {}
 
   @Get("/login-form")
@@ -57,7 +61,7 @@ export class PageUIController {
 
   @Get("/user-controls")
   async showUserControls(@Req() req: Request, @Res() res: Response) {
-    const token = this.checkToken(req);
+    const token = checkToken(req);
 
     if (!token) {
       const userGuestControls = await this._userGuestControls.execute();
@@ -99,14 +103,15 @@ export class PageUIController {
   }
 
   @Get("/gallery")
-  async populateGallery(@Res() res: Response) {
-    const gallery = await this._galleryView.execute();
+  async populateGallery(@Req() req: Request, @Res() res: Response) {
+    const token = checkToken(req);
 
-    return res.status(200).send(gallery);
-  }
+    if (!token) {
+      const galleryForGuest = await this._galleryForGuest.execute();
+      return res.status(200).send(galleryForGuest);
+    }
 
-  checkToken(req: Request): string {
-    const auth = req.headers?.cookie;
-    return auth?.split("=")[1];
+    const galleryForLoggedIn = await this._galleryForLoggedIn.execute();
+    return res.status(200).send(galleryForLoggedIn);
   }
 }

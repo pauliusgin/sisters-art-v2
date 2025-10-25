@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { validateOrReject } from "class-validator";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { AuthenticationMiddleware } from "../../middlewares/AuthenticationMiddleware";
 import {
   Post,
@@ -20,7 +20,7 @@ import { DeleteArtwork } from "../../../core/write/usecases/artwork/DeleteArtwor
 import { UpdateArtwork } from "../../../core/write/usecases/artwork/UpdateArtwork";
 import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
 import { GetAllArtworks } from "../../../core/read/queries/GetAllArtworks";
-import { Gallery } from "../../pageUI/Gallery";
+import { GalleryForLoggedIn } from "../../pageUI/GalleryForLoggedIn";
 import { UploadFormClosed } from "../../pageUI/UploadFormClosed";
 
 @injectable()
@@ -35,10 +35,10 @@ export class ArtworkController {
     private readonly _updateArtwork: UpdateArtwork,
     @inject(GetAllArtworks)
     private readonly _getAllArtworks: GetAllArtworks,
-    @inject(Gallery)
-    private readonly _gallery: Gallery,
     @inject(UploadFormClosed)
-    private readonly _uploadFormClosed: UploadFormClosed
+    private readonly _uploadFormClosed: UploadFormClosed,
+    @inject(GalleryForLoggedIn)
+    private readonly _galleryForLoggedIn: GalleryForLoggedIn
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
@@ -58,7 +58,7 @@ export class ArtworkController {
       fileUrl,
     });
 
-    const gallery = await this._gallery.execute();
+    const gallery = await this._galleryForLoggedIn.execute();
     const uploadFormClosed = await this._uploadFormClosed.execute();
 
     return res.status(201).send(gallery + uploadFormClosed);

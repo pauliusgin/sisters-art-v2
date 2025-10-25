@@ -5,7 +5,7 @@ import { GetAllArtworks } from "../../core";
 import { Author } from "../../messages";
 
 @injectable()
-export class Gallery implements Usecase<void, string> {
+export class GalleryForGuest implements Usecase<void, string> {
   constructor(
     @inject(GetAllArtworks)
     private readonly _getAllArtworks: GetAllArtworks
@@ -20,12 +20,17 @@ export class Gallery implements Usecase<void, string> {
 
     const gallery = ejs.render(
       `
+  <div hx-swap-oob="outerHTML" id="gallery-items" class="flex flex-row flex-wrap justify-evenly gap-[1rem]">
     <% artworks.forEach(a => { %>
-      <div class="flex flex-col items-center text-center max-w-[20rem]">
-        <img 
+      <div class="flex flex-col group items-center text-center max-w-[20rem]">
+        <div class="relative inline-block">        
+          <img 
           class="max-w-[15rem] max-h-[15rem] rounded-md image-shadow mb-[1rem]" 
           src="<%= a.fileUrl %>" alt="<%= a.title %>"
           loading="lazy">
+          <button id="artwork-update-button" class="hidden"></button> 
+          <div id="artwork-update-selection"></div>
+        </div>
         <p class="text-xl font-merienda text-shadow-sm">
           <% if (a.author === "${Author.BOTH}") { %>
           <%= a.author %> (<%= a.authorAge[0] %> y/o and <%= a.authorAge[1] %> y/o)
@@ -35,8 +40,10 @@ export class Gallery implements Usecase<void, string> {
         <p class="font-merienda text-shadow-sm">"<%= a.title %>"</p>
         <p class="font-merienda text-xs text-shadow-sm"><%= a.date.toISOString().slice(0, 10) %></p>
         <p class="font-merienda text-xs text-shadow-sm"><%= [a.type, a.material, a.method].filter(Boolean).join(", ") %></p>
+        <p type="hidden" value="<%= a.id %>" ></p>
       </div>
-    <% }) %>`,
+    <% }) %>
+  </div>`,
       { artworks }
     );
 

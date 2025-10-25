@@ -1,6 +1,6 @@
-import { Body, JsonController, Post, Req, Res } from "routing-controllers";
+import { Body, JsonController, Post, Res } from "routing-controllers";
 import { inject, injectable } from "inversify";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { LoginWithEmail } from "../../../core/write/usecases/user/LoginWithEmail";
 import { LoginWithEmailCommand } from "./commands/LoginWithEmailCommand";
 import { validateOrReject } from "class-validator";
@@ -11,6 +11,8 @@ import { deleteToken, setToken } from "../../utils/token";
 import { UserGuestControls } from "../../pageUI/UserGuestControls";
 import { UserLoggedInControls } from "../../pageUI/UserLoggedInControls";
 import { LoginFormClosed } from "../../pageUI/LoginFormClosed";
+import { GalleryForGuest } from "../../pageUI/GalleryForGuest";
+import { GalleryForLoggedIn } from "../../pageUI/GalleryForLoggedIn";
 
 @injectable()
 @JsonController("/users")
@@ -24,6 +26,10 @@ export class UserController {
     private readonly _userGuestControls: UserGuestControls,
     @inject(UserLoggedInControls)
     private readonly _userLoggedInControls: UserLoggedInControls,
+    @inject(GalleryForGuest)
+    private readonly _galleryForGuest: GalleryForGuest,
+    @inject(GalleryForLoggedIn)
+    private readonly _galleryForLoggedIn: GalleryForLoggedIn,
     @inject(LoginFormClosed)
     private readonly _loginFormClosed: LoginFormClosed
   ) {}
@@ -57,6 +63,7 @@ export class UserController {
     });
 
     const userLoggedInControls = await this._userLoggedInControls.execute();
+    const galleryForLoggedIn = await this._galleryForLoggedIn.execute();
     const loginFormClosed = await this._loginFormClosed.execute();
 
     setToken({
@@ -65,7 +72,9 @@ export class UserController {
       cookieOptions,
     });
 
-    return res.status(200).send(userLoggedInControls + loginFormClosed);
+    return res
+      .status(200)
+      .send(userLoggedInControls + galleryForLoggedIn + loginFormClosed);
   }
 
   @Post("/logout")
@@ -73,7 +82,8 @@ export class UserController {
     deleteToken({ res });
 
     const guestControls = await this._userGuestControls.execute();
+    const galleryForGuest = await this._galleryForGuest.execute();
 
-    return res.status(200).send(guestControls);
+    return res.status(200).send(guestControls + galleryForGuest);
   }
 }

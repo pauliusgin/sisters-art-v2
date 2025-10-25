@@ -46,7 +46,6 @@ import { UploadEntity } from "../../adapters/repositories/storage/UploadEntity";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { ImagesService } from "../../core/write/domain/services/ImageService";
 import { HandleArtworkCreated } from "../modules/handlers/HandleArtworkCreated";
-import { Gallery } from "../pageUI/Gallery";
 import { LoginFormClosed } from "../pageUI/LoginFormClosed";
 import { PageUIController } from "../modules/pageUI/PageUIController";
 import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
@@ -61,6 +60,8 @@ import { UploadForm } from "../pageUI/UploadForm";
 import { UploadFormClosed } from "../pageUI/UploadFormClosed";
 import { UploadPreview } from "../pageUI/UploadPreview";
 import { UploadHiddenInput } from "../pageUI/UploadHiddenInput";
+import { GalleryForGuest } from "../pageUI/GalleryForGuest";
+import { GalleryForLoggedIn } from "../pageUI/GalleryForLoggedIn";
 
 export class AppDependencies extends Container {
   async init() {
@@ -133,7 +134,8 @@ export class AppDependencies extends Container {
     this.bind(UploadFormClosed).toSelf();
     this.bind(UploadPreview).toSelf();
     this.bind(UploadHiddenInput).toSelf();
-    this.bind(Gallery).toSelf();
+    this.bind(GalleryForGuest).toSelf();
+    this.bind(GalleryForLoggedIn).toSelf();
 
     // controllers
     this.bind(UserController).toSelf();

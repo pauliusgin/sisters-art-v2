@@ -19,7 +19,7 @@ export class CreateArtworkCommand {
   @IsString()
   @IsOptional()
   @Transform(({ value }) => {
-    if (value === "") return null;
+    if (value === "") return "No title";
     return value;
   })
   title: string;
