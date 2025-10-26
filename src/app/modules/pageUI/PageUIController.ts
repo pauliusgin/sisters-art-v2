@@ -1,19 +1,34 @@
 import { inject, injectable } from "inversify";
 import { Request, Response } from "express";
-import { Res, JsonController, Get, Req } from "routing-controllers";
-import { LoginForm } from "../../pageUI/LoginForm";
-import { LoginFormClosed } from "../../pageUI/LoginFormClosed";
-import { UserGuestControls } from "../../pageUI/UserGuestControls";
-import { UserLoggedInControls } from "../../pageUI/UserLoggedInControls";
-import { HamburgerMenuOpen } from "../../pageUI/HamburgerMenuOpen";
-import { HamburgerMenuClosed } from "../../pageUI/HamburgerMenuClosed";
-import { HamburgerButton } from "../../pageUI/HamburgerButton";
-import { HamburgerButtonX } from "../../pageUI/HamburgerButtonX";
-import { UploadForm } from "../../pageUI/UploadForm";
-import { UploadFormClosed } from "../../pageUI/UploadFormClosed";
+import {
+  Res,
+  JsonController,
+  Get,
+  Req,
+  UseBefore,
+  Post,
+  Body,
+} from "routing-controllers";
+import {
+  ArtworkUpdateForm,
+  ArtworkUpdateFormClosed,
+  GalleryForGuest,
+  GalleryForLoggedIn,
+  HamburgerButton,
+  HamburgerButtonX,
+  HamburgerMenuOpen,
+  LoginForm,
+  LoginFormClosed,
+  UploadForm,
+  UploadFormClosed,
+  UserGuestControls,
+  UserLoggedInControls,
+} from "../../pageUI";
 import { checkToken } from "../../utils/token";
-import { GalleryForGuest } from "../../pageUI/GalleryForGuest";
-import { GalleryForLoggedIn } from "../../pageUI/GalleryForLoggedIn";
+import { AuthenticationMiddleware } from "../../middlewares/AuthenticationMiddleware";
+import { validateOrReject } from "class-validator";
+import { ArtworkIdCommand } from "../../pageUI/commands/ArtworkIdCommand";
+import { HamburgerMenuClosed } from "../../pageUI/ui/HamburgerMenuClosed";
 
 @injectable()
 @JsonController("/ui")
@@ -42,7 +57,11 @@ export class PageUIController {
     @inject(GalleryForGuest)
     private readonly _galleryForGuest: GalleryForGuest,
     @inject(GalleryForLoggedIn)
-    private readonly _galleryForLoggedIn: GalleryForLoggedIn
+    private readonly _galleryForLoggedIn: GalleryForLoggedIn,
+    @inject(ArtworkUpdateForm)
+    private readonly _artworkUpdateForm: ArtworkUpdateForm,
+    @inject(ArtworkUpdateFormClosed)
+    private readonly _artworkUpdateFormClosed: ArtworkUpdateFormClosed
   ) {}
 
   @Get("/login-form")
@@ -88,6 +107,7 @@ export class PageUIController {
     return res.status(200).send(hamburgerMenuClosed + hamburgerButton);
   }
 
+  @UseBefore(AuthenticationMiddleware)
   @Get("/upload-form")
   async openUploadForm(@Res() res: Response) {
     const uploadForm = await this._uploadForm.execute();
@@ -113,5 +133,28 @@ export class PageUIController {
 
     const galleryForLoggedIn = await this._galleryForLoggedIn.execute();
     return res.status(200).send(galleryForLoggedIn);
+  }
+
+  @UseBefore(AuthenticationMiddleware)
+  @Post("/artwork-update-form")
+  async artworkUpdateForm(@Res() res: Response, @Body() cmd: ArtworkIdCommand) {
+    const body = ArtworkIdCommand.setProperties(cmd);
+    await validateOrReject(body);
+
+    const { artworkId } = body;
+
+    const artworkUpdateUpdateForm = await this._artworkUpdateForm.execute(
+      artworkId
+    );
+
+    return res.status(200).send(artworkUpdateUpdateForm);
+  }
+
+  @Get("/artwork-update-form-closed")
+  async updateFormClosed(@Res() res: Response) {
+    const artworkUpdateFormClosed =
+      await this._artworkUpdateFormClosed.execute();
+
+    return res.status(200).send(artworkUpdateFormClosed);
   }
 }

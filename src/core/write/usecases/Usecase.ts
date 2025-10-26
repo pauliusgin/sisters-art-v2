@@ -1,6 +1,6 @@
-import { UserIdentity } from "../../../messages/types/UserIdentity";
+import { UserIdentity } from "../../../messages";
 
 export interface Usecase<IRequest, IResponse> {
-    execute(request?: IRequest): Promise<IResponse> | IResponse;
-    canExecute?(identity: UserIdentity, request?: IRequest): Promise<boolean>;
+  execute(request?: IRequest): Promise<IResponse> | IResponse;
+  canExecute?(identity: UserIdentity, request?: IRequest): Promise<boolean>;
 }

@@ -26,7 +26,7 @@ import {
   EventReceiver,
   MessageIdentifiers,
 } from "ddd-messaging-bus";
-import { ArtworkCreated, ArtworkUpdated, FileAttached } from "../../messages";
+import { ArtworkCreated, FileAttached } from "../../messages";
 import { HandleFileAttached } from "../modules/handlers/HandleFileAttached";
 import {
   AttachUploadedFile,
@@ -46,22 +46,27 @@ import { UploadEntity } from "../../adapters/repositories/storage/UploadEntity";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { ImagesService } from "../../core/write/domain/services/ImageService";
 import { HandleArtworkCreated } from "../modules/handlers/HandleArtworkCreated";
-import { LoginFormClosed } from "../pageUI/LoginFormClosed";
+import {
+  ArtworkItem,
+  ArtworkUpdateForm,
+  ArtworkUpdateFormClosed,
+  GalleryForGuest,
+  GalleryForLoggedIn,
+  HamburgerButton,
+  HamburgerButtonX,
+  HamburgerMenuOpen,
+  LoginForm,
+  LoginFormClosed,
+  UploadForm,
+  UploadFormClosed,
+  UploadHiddenInput,
+  UploadPreview,
+  UserGuestControls,
+  UserLoggedInControls,
+} from "../pageUI";
 import { PageUIController } from "../modules/pageUI/PageUIController";
-import { HandleArtworkUpdated } from "../modules/handlers/HandleArtworkUpdated";
-import { LoginForm } from "../pageUI/LoginForm";
-import { UserGuestControls } from "../pageUI/UserGuestControls";
-import { UserLoggedInControls } from "../pageUI/UserLoggedInControls";
-import { HamburgerMenuOpen } from "../pageUI/HamburgerMenuOpen";
-import { HamburgerMenuClosed } from "../pageUI/HamburgerMenuClosed";
-import { HamburgerButton } from "../pageUI/HamburgerButton";
-import { HamburgerButtonX } from "../pageUI/HamburgerButtonX";
-import { UploadForm } from "../pageUI/UploadForm";
-import { UploadFormClosed } from "../pageUI/UploadFormClosed";
-import { UploadPreview } from "../pageUI/UploadPreview";
-import { UploadHiddenInput } from "../pageUI/UploadHiddenInput";
-import { GalleryForGuest } from "../pageUI/GalleryForGuest";
-import { GalleryForLoggedIn } from "../pageUI/GalleryForLoggedIn";
+import { GetArtworkById } from "../../core/read/queries/GetArtworkById";
+import { HamburgerMenuClosed } from "../pageUI/ui/HamburgerMenuClosed";
 
 export class AppDependencies extends Container {
   async init() {
@@ -136,6 +141,9 @@ export class AppDependencies extends Container {
     this.bind(UploadHiddenInput).toSelf();
     this.bind(GalleryForGuest).toSelf();
     this.bind(GalleryForLoggedIn).toSelf();
+    this.bind(ArtworkUpdateForm).toSelf();
+    this.bind(ArtworkUpdateFormClosed).toSelf();
+    this.bind(ArtworkItem).toSelf();
 
     // controllers
     this.bind(UserController).toSelf();
@@ -153,6 +161,7 @@ export class AppDependencies extends Container {
     this.bind(DeleteArtwork).toSelf();
     this.bind(UpdateArtwork).toSelf();
     this.bind(GetAllArtworks).toSelf();
+    this.bind(GetArtworkById).toSelf();
 
     // uploads
     this.bind(UploadFile).toSelf();
@@ -167,10 +176,6 @@ export class AppDependencies extends Container {
     EventHandlerRegistry.register(
       ArtworkCreated,
       new HandleArtworkCreated(this.get(AttachUploadedFile))
-    );
-    EventHandlerRegistry.register(
-      ArtworkUpdated,
-      new HandleArtworkUpdated(this.get(AttachUploadedFile))
     );
     EventHandlerRegistry.register(
       FileAttached,

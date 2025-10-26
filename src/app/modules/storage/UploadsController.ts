@@ -14,8 +14,7 @@ import { UploadFile } from "../../../core";
 import { AuthenticatedUser } from "../../types/AuthenticatedUser";
 import multer from "multer";
 import { UploadFileCommand } from "./commands/UploadFileCommand";
-import { UploadPreview } from "../../pageUI/UploadPreview";
-import { UploadHiddenInput } from "../../pageUI/UploadHiddenInput";
+import { UploadHiddenInput, UploadPreview } from "../../pageUI";
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 

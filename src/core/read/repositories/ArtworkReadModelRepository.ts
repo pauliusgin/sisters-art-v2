@@ -1,7 +1,7 @@
 import { ArtworkReadModel } from "../models/ArtworkReadModel";
 
 export interface ArtworkReadModelRepository {
-    getById(id: string): Promise<ArtworkReadModel>;
+  getById(artworkId: string): Promise<ArtworkReadModel>;
 
-    getAll(): Promise<ArtworkReadModel[]>;
+  getAll(): Promise<ArtworkReadModel[]>;
 }

@@ -1,8 +1,7 @@
 import ejs from "ejs";
 import { inject, injectable } from "inversify";
-import { Usecase } from "../../core/write/usecases/Usecase";
-import { GetAllArtworks } from "../../core";
-import { Author } from "../../messages";
+import { GetAllArtworks, Usecase } from "../../../core";
+import { Author } from "../../../messages";
 
 @injectable()
 export class GalleryForLoggedIn implements Usecase<void, string> {
@@ -25,15 +24,17 @@ export class GalleryForLoggedIn implements Usecase<void, string> {
       `
   <div hx-swap-oob="outerHTML" id="gallery-items" class="flex flex-row flex-wrap justify-evenly gap-[1rem]">
     <% artworks.forEach(a => { %>
-      <div class="flex flex-col group items-center text-center max-w-[20rem]">
+      <div data-artwork-item-id="<%= a.id %>" class="flex flex-col group items-center text-center max-w-[20rem]">
         <div class="relative inline-block">        
           <img 
           class="max-w-[15rem] max-h-[15rem] rounded-md image-shadow mb-[1rem]" 
           src="<%= a.fileUrl %>" alt="<%= a.title %>"
           loading="lazy">
           <button        
-            hx-target="#artwork-update-button"
-            hx-swap-oob="outerHTML"
+            hx-post="ui/artwork-update-form"
+            hx-target="#artwork-update-form"
+            hx-swap="outerHTML"
+            hx-vals='{"artworkId": "<%= a.id %>"}'
             type="button"
             id="artwork-update-button"
             class="z-[20] absolute top-0 right-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-full p-1 m-1 text-gray-400 group-hover:bg-gray-50 group-hover:border-yellow-500 group-hover:text-green-500 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
@@ -59,7 +60,6 @@ export class GalleryForLoggedIn implements Usecase<void, string> {
             />
             </svg>
           </button>
-          <div id="artwork-update-selection"></div>
         </div>
         <p class="text-xl font-merienda text-shadow-sm">
           <% if (a.author === "${Author.BOTH}") { %>

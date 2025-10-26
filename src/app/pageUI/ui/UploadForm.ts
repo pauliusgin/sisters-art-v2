@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Usecase } from "../../core/write/usecases/Usecase";
+import { Usecase } from "../../../core";
 
 @injectable()
 export class UploadForm implements Usecase<void, string> {
@@ -24,7 +24,7 @@ export class UploadForm implements Usecase<void, string> {
             hx-target="#upload-form"
             hx-swap="outerHTML"
             type="button"
-            class="me-4 mt-3 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
+            class="me-4 mt-3 rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
             aria-label="Close">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ export class UploadForm implements Usecase<void, string> {
               required
               id="author-select"
               class="text-sm font-merienda mt-[0.5] mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-orange-500 focus:rounded-md sm:text-sm">
-              <option value="">Please select</option>
+              <option value="">(please select)</option>
               <option value="Viltautė">Viltautė</option>
               <option value="Jogailė">Jogailė</option>
               <option value="Viltautė and Jogailė">Viltautė and Jogailė</option>
@@ -85,26 +85,27 @@ export class UploadForm implements Usecase<void, string> {
               type="date"
               min="2021-01-01"
               required
+              placeholder="(please select)"
               id="date-input"
               class="text-sm font-merienda mt-[0.5] mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-yellow-500 focus:rounded-md sm:text-sm">
             </input>
           </label>
           
-          <label class="block font-merienda text-xs">Title (optional)
+          <label class="block font-merienda text-xs">Title
             <input
               type="text"
               name="title"
               id="title-input"
-              placeholder="No title"
+              placeholder="(optional)"
               class="text-sm mt-0.5 mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-green-500 focus:rounded-md sm:text-sm" />
           </label>
 
-            <label class="block font-merienda text-xs">Type (optional)
+            <label class="block font-merienda text-xs">Type
               <select
                 name="type"
                 id="type-select"
                 class="text-sm font-merienda mt-0.5 mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-cyan-500 focus:rounded-md sm:text-sm">
-                <option value="">Please select</option>
+                <option value="">(optional)</option>
                 <option value="Drawing">Drawing</option>
                 <option value="Sculpture">Sculpture</option>
                 <option value="Cardboard">Cardboard</option>
@@ -114,12 +115,12 @@ export class UploadForm implements Usecase<void, string> {
               </select>
             </label>
 
-            <label class="block font-merienda text-xs">Method (optional)
+            <label class="block font-merienda text-xs">Method
               <select
                 name="method"
                 id="method-select"
                 class="text-sm font-merienda mt-0.5 mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-blue-500 focus:rounded-md sm:text-sm">
-                <option value="">Please select</option>
+                <option value="">(optional)</option>
                 <option value="Watercolor">Watercolor</option>
                 <option value="Felt-tip pen">Felt tip pen</option>
                 <option value="Pencil">Pencil</option>
@@ -133,12 +134,12 @@ export class UploadForm implements Usecase<void, string> {
               </select>
             </label>
 
-            <label class="block font-merienda text-xs">Material (optional)
+            <label class="block font-merienda text-xs">Material
               <select
                 name="material"
                 id="material-select"
                 class="text-sm font-merienda mt-0.5 mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-purple-500 focus:rounded-md sm:text-sm">
-                <option value="">Please select</option>
+                <option value="">(optional)</option>
                 <option value="Paper">Paper</option>
                 <option value="Cardboard">Cardboard</option>
                 <option value="Clay">Clay</option>

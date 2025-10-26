@@ -1,3 +1,4 @@
+export { Usecase } from "./write/usecases/Usecase";
 export { AppIdentifiers } from "./AppIdentifiers";
 export { StorageGateway } from "./write/domain/gateways/StorageGateway";
 export { DeleteUploadedFile } from "./write/usecases/upload/DeleteUploadedFile";
@@ -15,3 +16,5 @@ export { UpdateArtwork } from "./write/usecases/artwork/UpdateArtwork";
 export { DeleteArtwork } from "./write/usecases/artwork/DeleteArtwork";
 export { GetAllArtworks } from "./read/queries/GetAllArtworks";
 export { ArtworkReadModel } from "./read/models/ArtworkReadModel";
+export { ArtworkReadModelRepository } from "./read/repositories/ArtworkReadModelRepository";
+export { GetArtworkById } from "./read/queries/GetArtworkById";

@@ -5,22 +5,21 @@ import { LoginWithEmail } from "../../../core/write/usecases/user/LoginWithEmail
 import { LoginWithEmailCommand } from "./commands/LoginWithEmailCommand";
 import { validateOrReject } from "class-validator";
 import { SignUp } from "../../../core/write/usecases/user/SignUp";
-import { SignUpCommand } from "./commands/SignUpCommand";
 import { cookieOptions } from "../../config/config";
 import { deleteToken, setToken } from "../../utils/token";
-import { UserGuestControls } from "../../pageUI/UserGuestControls";
-import { UserLoggedInControls } from "../../pageUI/UserLoggedInControls";
-import { LoginFormClosed } from "../../pageUI/LoginFormClosed";
-import { GalleryForGuest } from "../../pageUI/GalleryForGuest";
-import { GalleryForLoggedIn } from "../../pageUI/GalleryForLoggedIn";
+import {
+  GalleryForGuest,
+  GalleryForLoggedIn,
+  LoginFormClosed,
+  UserGuestControls,
+  UserLoggedInControls,
+} from "../../pageUI";
 
 @injectable()
 @JsonController("/users")
 export class UserController {
   constructor(
     @inject(SignUp)
-    private readonly _signUp: SignUp,
-    @inject(LoginWithEmail)
     private readonly _loginWithEmail: LoginWithEmail,
     @inject(UserGuestControls)
     private readonly _userGuestControls: UserGuestControls,
@@ -33,20 +32,6 @@ export class UserController {
     @inject(LoginFormClosed)
     private readonly _loginFormClosed: LoginFormClosed
   ) {}
-
-  @Post("/signup")
-  async signUp(@Res() res: Response, @Body() cmd: SignUpCommand) {
-    const body = SignUpCommand.setProperties(cmd);
-    await validateOrReject(body);
-    const { email, password } = body;
-
-    const response = await this._signUp.execute({
-      email,
-      password,
-    });
-
-    return res.status(201).send({ response });
-  }
 
   @Post("/login")
   async loginWithEmail(

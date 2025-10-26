@@ -1,6 +1,5 @@
-import { Expose, plainToClass } from "class-transformer";
+import { Expose, plainToClass, Transform } from "class-transformer";
 import {
-  IsDate,
   IsEnum,
   IsISO8601,
   IsOptional,
@@ -17,41 +16,46 @@ import {
 
 export class UpdateArtworkCommand {
   @Expose()
-  @IsOptional()
   @IsString()
   @Length(1)
+  @IsOptional()
   title: string;
 
   @Expose()
-  @IsOptional()
   @IsEnum(Author)
+  @IsOptional()
   author: Author;
 
   @Expose()
-  @IsOptional()
   @IsEnum(ArtworkType)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+    return value;
+  })
   type: ArtworkType;
 
   @Expose()
-  @IsOptional()
   @IsEnum(ArtworkMethod)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+    return value;
+  })
   method: ArtworkMethod;
 
   @Expose()
-  @IsOptional()
   @IsEnum(ArtworkMaterial)
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === "") return null;
+    return value;
+  })
   material: ArtworkMaterial;
 
   @Expose()
-  @IsOptional()
-  @IsString()
-  @Length(1)
-  @IsUrl()
-  fileUrl: string;
-
-  @Expose()
-  @IsOptional()
   @IsISO8601()
+  @IsOptional()
   date: Date;
 
   static setProperties(cmd: UpdateArtworkCommand): UpdateArtworkCommand {

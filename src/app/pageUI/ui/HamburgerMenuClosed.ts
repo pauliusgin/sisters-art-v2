@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Usecase } from "../../core/write/usecases/Usecase";
+import { Usecase } from "../../../core";
 
 @injectable()
 export class HamburgerMenuClosed implements Usecase<void, string> {

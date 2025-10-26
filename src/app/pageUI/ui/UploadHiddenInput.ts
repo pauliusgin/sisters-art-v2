@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Usecase } from "../../core/write/usecases/Usecase";
+import { Usecase } from "../../../core";
 
 @injectable()
 export class UploadHiddenInput implements Usecase<string, string> {

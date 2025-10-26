@@ -68,7 +68,7 @@ export class ArtworkEntity {
 
   @Column({
     nullable: false,
-    type: "timestamp",
+    type: "timestamptz",
   })
   date: Date;
 

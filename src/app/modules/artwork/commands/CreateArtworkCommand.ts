@@ -57,9 +57,6 @@ export class CreateArtworkCommand {
 
   @Expose()
   @IsISO8601()
-  @Transform(({ value }) => {
-    return value.split("T")[0] + "T12:00:00.000Z";
-  })
   date: Date;
 
   @Expose()

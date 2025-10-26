@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import { EntityManager } from "typeorm";
-import { ArtworkReadModelRepository } from "../../../../core/read/repositories/ArtworkReadModelRepository";
-import { ArtworkReadModel } from "../../../../core/read/models/ArtworkReadModel";
+import { ArtworkReadModel, ArtworkReadModelRepository } from "../../../../core";
 import { ArtworkReadModelMapper } from "./ArtworkReadModelMapper";
 
 @injectable()
@@ -46,7 +45,7 @@ export class PostgresArtworkReadModelRepository
             art.id,
             art.title,
             art.author,
-            art."authorAge"
+            art."authorAge",
             art.type,
             art.method,
             art.material,
@@ -59,6 +58,11 @@ export class PostgresArtworkReadModelRepository
   `,
       [artworkId]
     );
+
+    if (!result.length) {
+      return null;
+    }
+
     return this.artworkReadModelMapper.toDomain(result[0]);
   }
 }

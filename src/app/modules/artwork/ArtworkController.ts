@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { validateOrReject } from "class-validator";
-import { Response, Request } from "express";
+import { Response } from "express";
 import { AuthenticationMiddleware } from "../../middlewares/AuthenticationMiddleware";
 import {
   Post,
@@ -16,12 +16,19 @@ import {
 } from "routing-controllers";
 import { CreateArtwork } from "../../../core/write/usecases/artwork/CreateArtwork";
 import { CreateArtworkCommand } from "./commands/CreateArtworkCommand";
-import { DeleteArtwork } from "../../../core/write/usecases/artwork/DeleteArtwork";
-import { UpdateArtwork } from "../../../core/write/usecases/artwork/UpdateArtwork";
+import {
+  DeleteArtwork,
+  GetAllArtworks,
+  GetArtworkById,
+  UpdateArtwork,
+} from "../../../core";
 import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
-import { GetAllArtworks } from "../../../core/read/queries/GetAllArtworks";
-import { GalleryForLoggedIn } from "../../pageUI/GalleryForLoggedIn";
-import { UploadFormClosed } from "../../pageUI/UploadFormClosed";
+import {
+  ArtworkItem,
+  ArtworkUpdateFormClosed,
+  GalleryForLoggedIn,
+  UploadFormClosed,
+} from "../../pageUI";
 
 @injectable()
 @JsonController("/artworks")
@@ -38,7 +45,13 @@ export class ArtworkController {
     @inject(UploadFormClosed)
     private readonly _uploadFormClosed: UploadFormClosed,
     @inject(GalleryForLoggedIn)
-    private readonly _galleryForLoggedIn: GalleryForLoggedIn
+    private readonly _galleryForLoggedIn: GalleryForLoggedIn,
+    @inject(ArtworkItem)
+    private readonly _artworkItem: ArtworkItem,
+    @inject(ArtworkUpdateFormClosed)
+    private readonly _artworkUpdateFormClosed: ArtworkUpdateFormClosed,
+    @inject(GetArtworkById)
+    private readonly _getArtworkById: GetArtworkById
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
@@ -73,9 +86,9 @@ export class ArtworkController {
   ) {
     const body = UpdateArtworkCommand.setProperties(cmd);
     await validateOrReject(body);
-    const { title, author, type, material, method, date, fileUrl } = body;
+    const { title, author, type, material, method, date } = body;
 
-    const result = await this._updateArtwork.execute({
+    const update = await this._updateArtwork.execute({
       artworkId,
       title,
       author,
@@ -83,10 +96,13 @@ export class ArtworkController {
       material,
       method,
       date,
-      fileUrl,
     });
 
-    return res.status(200).send(result.props);
+    const artwork = await this._getArtworkById.execute(update.props.id);
+    const artworkItem = await this._artworkItem.execute(artwork);
+    const updateFormClosed = await this._artworkUpdateFormClosed.execute();
+
+    return res.status(200).send(artworkItem + updateFormClosed);
   }
 
   @UseBefore(AuthenticationMiddleware)
@@ -100,7 +116,7 @@ export class ArtworkController {
     return res.sendStatus(200);
   }
 
-  @UseBefore(AuthenticationMiddleware)
+  // @UseBefore(AuthenticationMiddleware)
   @Get("/")
   async getArtworks(@Req() @Res() res: Response) {
     const result = await this._getAllArtworks.execute();

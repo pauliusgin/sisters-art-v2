@@ -1,8 +1,7 @@
 import ejs from "ejs";
 import { inject, injectable } from "inversify";
-import { Usecase } from "../../core/write/usecases/Usecase";
-import { GetAllArtworks } from "../../core";
-import { Author } from "../../messages";
+import { GetAllArtworks, Usecase } from "../../../core";
+import { Author } from "../../../messages";
 
 @injectable()
 export class GalleryForGuest implements Usecase<void, string> {

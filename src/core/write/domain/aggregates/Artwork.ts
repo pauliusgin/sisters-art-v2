@@ -69,17 +69,15 @@ export class Artwork {
     type?: ArtworkType;
     method?: ArtworkMethod;
     material?: ArtworkMaterial;
-    fileUrl?: string;
     date?: Date;
   }) {
-    const { title, author, type, method, material, fileUrl, date } = payload;
+    const { title, author, type, method, material, date } = payload;
 
     this.props.title = title;
     this.props.author = author;
     this.props.type = type;
     this.props.method = method;
     this.props.material = material;
-    this.props.fileUrl = fileUrl;
     this.props.date = date;
     this.props.authorAge = calculateAge({
       author,
