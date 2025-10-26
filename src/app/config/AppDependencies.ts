@@ -67,6 +67,7 @@ import {
 import { PageUIController } from "../modules/pageUI/PageUIController";
 import { GetArtworkById } from "../../core/read/queries/GetArtworkById";
 import { HamburgerMenuClosed } from "../pageUI/ui/HamburgerMenuClosed";
+import { DeleteButtonConfirmation } from "../pageUI/ui/DeleteButtonConfirmation";
 
 export class AppDependencies extends Container {
   async init() {
@@ -144,6 +145,7 @@ export class AppDependencies extends Container {
     this.bind(ArtworkUpdateForm).toSelf();
     this.bind(ArtworkUpdateFormClosed).toSelf();
     this.bind(ArtworkItem).toSelf();
+    this.bind(DeleteButtonConfirmation).toSelf();
 
     // controllers
     this.bind(UserController).toSelf();

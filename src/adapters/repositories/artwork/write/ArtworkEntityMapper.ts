@@ -17,6 +17,7 @@ export class ArtworkEntityMapper implements Mapper<ArtworkEntity, Artwork> {
       material: t.props.material,
       fileUrl: t.props.fileUrl,
       date: t.props.date,
+      deletedAt: t.props.deletedAt,
     });
   }
 
@@ -31,6 +32,7 @@ export class ArtworkEntityMapper implements Mapper<ArtworkEntity, Artwork> {
       material: raw.material,
       fileUrl: raw.fileUrl,
       date: raw.date,
+      deletedAt: raw.deletedAt,
     });
 
     artwork.createdAt = raw.createdAt;

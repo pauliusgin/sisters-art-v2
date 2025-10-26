@@ -17,6 +17,7 @@ export interface ArtworkProperties {
   material?: ArtworkMaterial;
   fileUrl: string;
   date?: Date;
+  deletedAt?: Date;
 }
 
 export class Artwork {
@@ -83,5 +84,9 @@ export class Artwork {
       author,
       artCreatedAt: date,
     });
+  }
+
+  delete() {
+    this.props.deletedAt = new Date();
   }
 }

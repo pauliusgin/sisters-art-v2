@@ -12,6 +12,7 @@ import {
 import {
   ArtworkUpdateForm,
   ArtworkUpdateFormClosed,
+  DeleteButtonConfirmation,
   HamburgerButton,
   HamburgerButtonX,
   HamburgerMenuOpen,
@@ -58,7 +59,9 @@ export class PageUIController {
     @inject(ArtworkUpdateFormClosed)
     private readonly _artworkUpdateFormClosed: ArtworkUpdateFormClosed,
     @inject(GetArtworkById)
-    private readonly _getArtworkById: GetArtworkById
+    private readonly _getArtworkById: GetArtworkById,
+    @inject(DeleteButtonConfirmation)
+    private readonly _deleteButtonConfirmation: DeleteButtonConfirmation
   ) {}
 
   @Get("/login-form")
@@ -112,6 +115,7 @@ export class PageUIController {
     return res.status(200).send(uploadForm);
   }
 
+  @UseBefore(AuthenticationMiddleware)
   @Get("/upload-form-closed")
   async closeUploadForm(@Res() res: Response) {
     const uploadFormClosed = await this._uploadFormClosed.execute();
@@ -136,11 +140,29 @@ export class PageUIController {
     return res.status(200).send(artworkUpdateUpdateForm);
   }
 
+  @UseBefore(AuthenticationMiddleware)
   @Get("/artwork-update-form-closed")
   async updateFormClosed(@Res() res: Response) {
     const artworkUpdateFormClosed =
       await this._artworkUpdateFormClosed.execute();
 
     return res.status(200).send(artworkUpdateFormClosed);
+  }
+
+  @UseBefore(AuthenticationMiddleware)
+  @Post("/delete-button-confirmation")
+  async deleteConfirmation(
+    @Res() res: Response,
+    @Body() cmd: ArtworkIdCommand
+  ) {
+    const body = ArtworkIdCommand.setProperties(cmd);
+    await validateOrReject(body);
+
+    const { artworkId } = body;
+
+    const deleteButtonConfirmation =
+      await this._deleteButtonConfirmation.execute(artworkId);
+
+    return res.status(200).send(deleteButtonConfirmation);
   }
 }

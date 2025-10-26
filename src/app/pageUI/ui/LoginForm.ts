@@ -24,7 +24,7 @@ export class LoginForm implements Usecase<void, string> {
             hx-target="#login-form"
             hx-swap="outerHTML"
             type="button"
-            class="-me-4 -mt-4 rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none"
+            class="rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none"
             aria-label="Close">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -72,6 +72,12 @@ export class ArtworkEntity {
   })
   date: Date;
 
+  @Column({
+    nullable: true,
+    type: "timestamptz",
+  })
+  deletedAt: Date;
+
   @CreateDateColumn()
   createdAt?: Date;
 

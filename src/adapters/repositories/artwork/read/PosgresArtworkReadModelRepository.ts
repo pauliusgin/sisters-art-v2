@@ -28,6 +28,8 @@ export class PostgresArtworkReadModelRepository
       art."date"
     FROM
       artworks art 
+    WHERE
+      art."deletedAt" IS NULL
     ORDER BY 
       art.date DESC
     `
@@ -55,6 +57,7 @@ export class PostgresArtworkReadModelRepository
             artworks art 
         WHERE
             art.id = $1
+            AND art."deletedAt" IS NULL
   `,
       [artworkId]
     );

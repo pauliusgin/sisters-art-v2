@@ -24,7 +24,7 @@ export class UploadForm implements Usecase<void, string> {
             hx-target="#upload-form"
             hx-swap="outerHTML"
             type="button"
-            class="me-4 mt-3 rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
+            class="rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
             aria-label="Close">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +160,7 @@ export class UploadForm implements Usecase<void, string> {
               hx-target="#upload-form"
               hx-swap="outerHTML"
               type="button"
-              class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-red-500 hover:border-yellow-500">
+              class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-pink-500 hover:border-purple-500">
               Cancel
             </button>
 

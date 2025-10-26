@@ -26,7 +26,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
             hx-target="#artwork-update-form"
             hx-swap="outerHTML"
             type="button"
-            class="me-4 mt-3 rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
+            class="rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
             aria-label="Close">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -144,22 +144,38 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
 
           </div>
 
-          <div class="mt-6 flex justify-end gap-2">
-            <button
-              hx-get="/ui/artwork-update-form-closed"
-              hx-trigger="click"
-              hx-target="#artwork-update-form"
-              hx-swap="outerHTML"
-              type="button"
-              class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-red-500 hover:border-yellow-500">
-              Cancel
-            </button>
+          <div class="mt-6 flex justify-between gap-2">
+            <div>
+              <button
+                hx-post="/ui/delete-button-confirmation"
+                hx-trigger="click"
+                hx-target="#delete-button"
+                hx-swap="outerHTML"
+                hx-confirm="Are you sure you want to delete this artwork?"
+                hx-vals='{"artworkId": "<%= artwork.id %>"}'
+                type="button"
+                id="delete-button"
+                class="block self-start border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-red-500 hover:border-yellow-500">
+                Delete
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <button
+                hx-get="/ui/artwork-update-form-closed"
+                hx-trigger="click"
+                hx-target="#artwork-update-form"
+                hx-swap="outerHTML"
+                type="button"
+                class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-pink-500 hover:border-purple-500">
+                Cancel
+              </button>
 
-            <button
-              type="submit"
-              class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-green-500 focus:rounded-md hover:text-green-500 hover:border-blue-500">
-              Submit
-            </button>
+              <button
+                type="submit"
+                class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-green-500 focus:rounded-md hover:text-green-500 hover:border-blue-500">
+                Submit
+              </button>
+            </div>
           </div>
         </form>
       </div>

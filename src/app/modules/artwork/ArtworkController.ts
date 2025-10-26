@@ -118,7 +118,9 @@ export class ArtworkController {
   ) {
     await this._deleteArtwork.execute(artworkId);
 
-    return res.sendStatus(200);
+    const updateFormClosed = await this._artworkUpdateFormClosed.execute();
+
+    return res.status(200).send(updateFormClosed);
   }
 
   @Get("/")

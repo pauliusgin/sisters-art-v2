@@ -2,15 +2,12 @@ import { inject, injectable } from "inversify";
 import { Usecase } from "../Usecase";
 import { AppIdentifiers } from "../../../AppIdentifiers";
 import { ArtworkRepository } from "../../domain/repositories/ArtworkRepository";
-import { StorageGateway } from "../../domain/gateways/StorageGateway";
 
 @injectable()
 export class DeleteArtwork implements Usecase<string, void> {
   constructor(
     @inject(AppIdentifiers.artworkRepository)
-    private readonly _artworkRepository: ArtworkRepository,
-    @inject(AppIdentifiers.storageGateway)
-    private readonly _storageGateway: StorageGateway
+    private readonly _artworkRepository: ArtworkRepository
   ) {}
 
   async execute(artworkId: string): Promise<void> {
@@ -19,10 +16,8 @@ export class DeleteArtwork implements Usecase<string, void> {
       return;
     }
 
-    await this._storageGateway.delete(artwork.props.fileUrl);
+    artwork.delete();
 
-    await this._artworkRepository.delete(artworkId);
-
-    return;
+    await this._artworkRepository.save(artwork);
   }
 }

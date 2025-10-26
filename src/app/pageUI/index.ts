@@ -14,3 +14,4 @@ export { UploadHiddenInput } from "./ui/UploadHiddenInput";
 export { UploadPreview } from "./ui/UploadPreview";
 export { UserGuestControls } from "./ui/UserGuestControls";
 export { UserLoggedInControls } from "./ui/UserLoggedInControls";
+export { DeleteButtonConfirmation } from "./ui/DeleteButtonConfirmation";
