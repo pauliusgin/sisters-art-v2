@@ -1,21 +1,12 @@
 import ejs from "ejs";
-import { inject, injectable } from "inversify";
-import {
-  AppIdentifiers,
-  ArtworkReadModelRepository,
-  Usecase,
-} from "../../../core";
+import { injectable } from "inversify";
+import { ArtworkReadModel, Usecase } from "../../../core";
 
 @injectable()
-export class ArtworkUpdateForm implements Usecase<string, string> {
-  constructor(
-    @inject(AppIdentifiers.artworkReadModelRepository)
-    private readonly _artworkReadModelRepository: ArtworkReadModelRepository
-  ) {}
+export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
+  constructor() {}
 
-  async execute(artworkId: string): Promise<string> {
-    const artwork = await this._artworkReadModelRepository.getById(artworkId);
-
+  async execute(artwork: ArtworkReadModel): Promise<string> {
     const artworkUpdateForm = ejs.render(
       `
     <div

@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { validateOrReject } from "class-validator";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { AuthenticationMiddleware } from "../../middlewares/AuthenticationMiddleware";
 import {
   Post,
@@ -26,9 +26,11 @@ import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
 import {
   ArtworkItem,
   ArtworkUpdateFormClosed,
+  GalleryForGuest,
   GalleryForLoggedIn,
   UploadFormClosed,
 } from "../../pageUI";
+import { checkToken } from "../../utils/token";
 
 @injectable()
 @JsonController("/artworks")
@@ -51,7 +53,9 @@ export class ArtworkController {
     @inject(ArtworkUpdateFormClosed)
     private readonly _artworkUpdateFormClosed: ArtworkUpdateFormClosed,
     @inject(GetArtworkById)
-    private readonly _getArtworkById: GetArtworkById
+    private readonly _getArtworkById: GetArtworkById,
+    @inject(GalleryForGuest)
+    private readonly _galleryForGuest: GalleryForGuest
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
@@ -71,7 +75,8 @@ export class ArtworkController {
       fileUrl,
     });
 
-    const gallery = await this._galleryForLoggedIn.execute();
+    const artworks = await this._getAllArtworks.execute();
+    const gallery = await this._galleryForLoggedIn.execute(artworks);
     const uploadFormClosed = await this._uploadFormClosed.execute();
 
     return res.status(201).send(gallery + uploadFormClosed);
@@ -116,11 +121,17 @@ export class ArtworkController {
     return res.sendStatus(200);
   }
 
-  // @UseBefore(AuthenticationMiddleware)
   @Get("/")
-  async getArtworks(@Req() @Res() res: Response) {
-    const result = await this._getAllArtworks.execute();
+  async getArtworks(@Req() req: Request, @Res() res: Response) {
+    const artworks = await this._getAllArtworks.execute();
 
-    return res.status(200).send(result);
+    const token = checkToken(req);
+    if (!token) {
+      const gallery = await this._galleryForGuest.execute(artworks);
+      return res.status(200).send(gallery);
+    }
+
+    const gallery = await this._galleryForLoggedIn.execute(artworks);
+    return res.status(200).send(gallery);
   }
 }

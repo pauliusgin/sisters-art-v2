@@ -12,8 +12,6 @@ import {
 import {
   ArtworkUpdateForm,
   ArtworkUpdateFormClosed,
-  GalleryForGuest,
-  GalleryForLoggedIn,
   HamburgerButton,
   HamburgerButtonX,
   HamburgerMenuOpen,
@@ -29,6 +27,7 @@ import { AuthenticationMiddleware } from "../../middlewares/AuthenticationMiddle
 import { validateOrReject } from "class-validator";
 import { ArtworkIdCommand } from "../../pageUI/commands/ArtworkIdCommand";
 import { HamburgerMenuClosed } from "../../pageUI/ui/HamburgerMenuClosed";
+import { GetArtworkById } from "../../../core";
 
 @injectable()
 @JsonController("/ui")
@@ -54,14 +53,12 @@ export class PageUIController {
     private readonly _uploadForm: UploadForm,
     @inject(UploadFormClosed)
     private readonly _uploadFormClosed: UploadFormClosed,
-    @inject(GalleryForGuest)
-    private readonly _galleryForGuest: GalleryForGuest,
-    @inject(GalleryForLoggedIn)
-    private readonly _galleryForLoggedIn: GalleryForLoggedIn,
     @inject(ArtworkUpdateForm)
     private readonly _artworkUpdateForm: ArtworkUpdateForm,
     @inject(ArtworkUpdateFormClosed)
-    private readonly _artworkUpdateFormClosed: ArtworkUpdateFormClosed
+    private readonly _artworkUpdateFormClosed: ArtworkUpdateFormClosed,
+    @inject(GetArtworkById)
+    private readonly _getArtworkById: GetArtworkById
   ) {}
 
   @Get("/login-form")
@@ -122,19 +119,6 @@ export class PageUIController {
     return res.status(200).send(uploadFormClosed);
   }
 
-  @Get("/gallery")
-  async populateGallery(@Req() req: Request, @Res() res: Response) {
-    const token = checkToken(req);
-
-    if (!token) {
-      const galleryForGuest = await this._galleryForGuest.execute();
-      return res.status(200).send(galleryForGuest);
-    }
-
-    const galleryForLoggedIn = await this._galleryForLoggedIn.execute();
-    return res.status(200).send(galleryForLoggedIn);
-  }
-
   @UseBefore(AuthenticationMiddleware)
   @Post("/artwork-update-form")
   async artworkUpdateForm(@Res() res: Response, @Body() cmd: ArtworkIdCommand) {
@@ -143,8 +127,10 @@ export class PageUIController {
 
     const { artworkId } = body;
 
+    const artwork = await this._getArtworkById.execute(artworkId);
+
     const artworkUpdateUpdateForm = await this._artworkUpdateForm.execute(
-      artworkId
+      artwork
     );
 
     return res.status(200).send(artworkUpdateUpdateForm);

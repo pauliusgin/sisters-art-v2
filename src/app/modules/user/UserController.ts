@@ -14,6 +14,7 @@ import {
   UserGuestControls,
   UserLoggedInControls,
 } from "../../pageUI";
+import { GetAllArtworks } from "../../../core";
 
 @injectable()
 @JsonController("/users")
@@ -30,7 +31,9 @@ export class UserController {
     @inject(GalleryForLoggedIn)
     private readonly _galleryForLoggedIn: GalleryForLoggedIn,
     @inject(LoginFormClosed)
-    private readonly _loginFormClosed: LoginFormClosed
+    private readonly _loginFormClosed: LoginFormClosed,
+    @inject(GetAllArtworks)
+    private readonly _getAllArtworks: GetAllArtworks
   ) {}
 
   @Post("/login")
@@ -47,8 +50,9 @@ export class UserController {
       password,
     });
 
+    const artworks = await this._getAllArtworks.execute();
+    const galleryForLoggedIn = await this._galleryForLoggedIn.execute(artworks);
     const userLoggedInControls = await this._userLoggedInControls.execute();
-    const galleryForLoggedIn = await this._galleryForLoggedIn.execute();
     const loginFormClosed = await this._loginFormClosed.execute();
 
     setToken({
@@ -66,8 +70,9 @@ export class UserController {
   async logout(@Res() res: Response) {
     deleteToken({ res });
 
+    const artworks = await this._getAllArtworks.execute();
+    const galleryForGuest = await this._galleryForGuest.execute(artworks);
     const guestControls = await this._userGuestControls.execute();
-    const galleryForGuest = await this._galleryForGuest.execute();
 
     return res.status(200).send(guestControls + galleryForGuest);
   }

@@ -1,18 +1,13 @@
 import ejs from "ejs";
-import { inject, injectable } from "inversify";
-import { GetAllArtworks, Usecase } from "../../../core";
+import { injectable } from "inversify";
+import { ArtworkReadModel, Usecase } from "../../../core";
 import { Author } from "../../../messages";
 
 @injectable()
-export class GalleryForLoggedIn implements Usecase<void, string> {
-  constructor(
-    @inject(GetAllArtworks)
-    private readonly _getAllArtworks: GetAllArtworks
-  ) {}
+export class GalleryForLoggedIn implements Usecase<ArtworkReadModel[], string> {
+  constructor() {}
 
-  async execute(): Promise<string> {
-    const artworks = await this._getAllArtworks.execute();
-
+  async execute(artworks: ArtworkReadModel[]): Promise<string> {
     if (!artworks.length) {
       return `
     <div hx-swap-oob="outerHTML" id="gallery-items" class="flex flex-row flex-wrap justify-evenly gap-[1rem]">
