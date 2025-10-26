@@ -4,7 +4,6 @@ import { Response } from "express";
 import { LoginWithEmail } from "../../../core/write/usecases/user/LoginWithEmail";
 import { LoginWithEmailCommand } from "./commands/LoginWithEmailCommand";
 import { validateOrReject } from "class-validator";
-import { SignUp } from "../../../core/write/usecases/user/SignUp";
 import { cookieOptions } from "../../config/config";
 import { deleteToken, setToken } from "../../utils/token";
 import {
@@ -20,7 +19,7 @@ import { GetAllArtworks } from "../../../core";
 @JsonController("/users")
 export class UserController {
   constructor(
-    @inject(SignUp)
+    @inject(LoginWithEmail)
     private readonly _loginWithEmail: LoginWithEmail,
     @inject(UserGuestControls)
     private readonly _userGuestControls: UserGuestControls,
