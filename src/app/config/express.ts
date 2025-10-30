@@ -5,7 +5,6 @@ import { AppDependencies } from "./AppDependencies";
 import { UserController } from "../modules/user/UserController";
 import { ArtworkController } from "../modules/artwork/ArtworkController";
 import morgan from "morgan";
-import cors from "cors";
 import { UploadsController } from "../modules/storage/UploadsController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { pendingUploadsCleanupCron } from "../cron/PendingUploadsCleanupCron";
@@ -13,7 +12,6 @@ import { PageUIController } from "../modules/pageUI/PageUIController";
 
 export async function configureExpress(app: Application) {
   app.use(morgan("combined"));
-  app.use(cors());
 
   const container = await new AppDependencies().init();
 
