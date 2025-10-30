@@ -14,7 +14,12 @@ import { UploadFile } from "../../../core";
 import { AuthenticatedUser } from "../../types/AuthenticatedUser";
 import multer from "multer";
 import { UploadFileCommand } from "./commands/UploadFileCommand";
-import { UploadHiddenInput, UploadPreview } from "../../pageUI";
+import {
+  ErrorMessage,
+  ErrorMessageClosed,
+  UploadHiddenInput,
+  UploadPreview,
+} from "../../pageUI";
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -27,7 +32,11 @@ export class UploadsController {
     @inject(UploadPreview)
     private readonly _uploadPreview: UploadPreview,
     @inject(UploadHiddenInput)
-    private readonly _uploadHiddenInput: UploadHiddenInput
+    private readonly _uploadHiddenInput: UploadHiddenInput,
+    @inject(ErrorMessage)
+    private readonly _errorMessage: ErrorMessage,
+    @inject(ErrorMessageClosed)
+    private readonly _errorMessageClosed: ErrorMessageClosed
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
@@ -38,25 +47,33 @@ export class UploadsController {
     @Res() res: Response,
     @Body() cmd: UploadFileCommand
   ) {
-    const body = UploadFileCommand.setProperties(cmd);
-    await validateOrReject(body);
+    try {
+      const body = UploadFileCommand.setProperties(cmd);
+      await validateOrReject(body);
 
-    const { fileType, usage } = body;
-    const { size, buffer } = req.file;
+      const { fileType, usage } = body;
+      const { size, buffer } = req.file;
 
-    const upload = await this._uploadFile.execute({
-      userId: req.identity.id,
-      fileType,
-      usage,
-      file: {
-        size,
-        buffer,
-      },
-    });
+      const upload = await this._uploadFile.execute({
+        userId: req.identity.id,
+        fileType,
+        usage,
+        file: {
+          size,
+          buffer,
+        },
+      });
 
-    const preview = await this._uploadPreview.execute(upload.props.url);
-    const hiddenInput = await this._uploadHiddenInput.execute(upload.props.url);
+      const preview = await this._uploadPreview.execute(upload.props.url);
+      const hiddenInput = await this._uploadHiddenInput.execute(
+        upload.props.url
+      );
+      const errorMessageClosed = await this._errorMessageClosed.execute();
 
-    return res.status(201).send(preview + hiddenInput);
+      return res.status(201).send(preview + hiddenInput + errorMessageClosed);
+    } catch (error: any) {
+      const errorMessage = await this._errorMessage.execute(error);
+      return res.status(500).send(errorMessage);
+    }
   }
 }

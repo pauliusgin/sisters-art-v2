@@ -45,6 +45,7 @@ export class UploadForm implements Usecase<void, string> {
         <form 
         hx-post="/artworks"
         hx-target="#gallery-items"
+        hx-target-5*="#error-message"
         hx-swap="innerHTML"
         >
         <div class="mt-4">
@@ -61,6 +62,7 @@ export class UploadForm implements Usecase<void, string> {
               hx-vals='{"fileType": "image", "usage": "artwork"}'
               hx-post="/uploads"
               hx-target="#upload-preview"
+              hx-target-5*="#error-message"
               hx-swap="outerHTML"
               class="text-sm font-merienda mt-[0.5] mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-md sm:text-sm">
             </input>
@@ -170,6 +172,7 @@ export class UploadForm implements Usecase<void, string> {
               Submit
             </button>
           </div>
+          <div id="error-message"></div>
         </form>
       </div>
     </div>

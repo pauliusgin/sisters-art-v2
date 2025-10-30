@@ -3,7 +3,7 @@ import { DomainError } from "./DomainError";
 export namespace UserErrors {
     export class InvalidPasswordOrEmail extends DomainError {
         constructor(cause?: string) {
-            super("INVALID_PASSWORD_OR_EMAIL");
+            super("Invalid password or email");
             this.cause = cause;
         }
     }

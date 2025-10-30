@@ -46,6 +46,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
         <form 
         hx-patch="/artworks/<%= artwork.id %>"
         hx-target="[data-artwork-item-id='<%= artwork.id %>']"
+        hx-target-5*="#error-message"
         hx-swap="outerHTML"
         >
         <div class="mt-4">
@@ -177,6 +178,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
               </button>
             </div>
           </div>
+          <div id="error-message"></div>
         </form>
       </div>
     </div>

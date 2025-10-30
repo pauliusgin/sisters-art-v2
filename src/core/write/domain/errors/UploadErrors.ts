@@ -10,14 +10,14 @@ export namespace UploadErrors {
 
   export class InvalidFileFormat extends DomainError {
     constructor(cause?: string) {
-      super("INVALID_FILE_FORMAT");
+      super("Invalid file format");
       this.cause = cause;
     }
   }
 
   export class UnableToUpload extends DomainError {
     constructor(cause?: string) {
-      super("UNABLE_TO_UPLOAD");
+      super("Unable to upload");
       this.cause = cause;
     }
   }

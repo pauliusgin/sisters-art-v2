@@ -1,4 +1,5 @@
 export { Usecase } from "./write/usecases/Usecase";
+export { DomainError } from "./write/domain/errors/DomainError";
 export { AppIdentifiers } from "./AppIdentifiers";
 export { StorageGateway } from "./write/domain/gateways/StorageGateway";
 export { DeleteUploadedFile } from "./write/usecases/upload/DeleteUploadedFile";

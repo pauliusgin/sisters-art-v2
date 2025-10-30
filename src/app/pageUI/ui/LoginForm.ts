@@ -44,6 +44,7 @@ export class LoginForm implements Usecase<void, string> {
         <form 
           hx-post="/users/login"
           hx-target="#user-controls"
+          hx-target-5*="#error-message"
           hx-swap="innerHTML"
           >
           <div class="mt-4">
@@ -63,6 +64,7 @@ export class LoginForm implements Usecase<void, string> {
                 placeholder="password"
                 class="font-merienda mt-0.5 w-full px-2 py-[0.3rem] rounded-md bg-[rgba(240,235,230,0.8)] border-gray-300 shadow-sm focus:outline-none sm:text-sm" />
             </label>
+            <div id="error-message"></div>
           </div>
 
           <div class="mt-6 flex justify-end gap-2">

@@ -12,6 +12,7 @@ import {
   LoginFormClosed,
   UserGuestControls,
   UserLoggedInControls,
+  ErrorMessage,
 } from "../../pageUI";
 import { GetAllArtworks } from "../../../core";
 
@@ -32,7 +33,9 @@ export class UserController {
     @inject(LoginFormClosed)
     private readonly _loginFormClosed: LoginFormClosed,
     @inject(GetAllArtworks)
-    private readonly _getAllArtworks: GetAllArtworks
+    private readonly _getAllArtworks: GetAllArtworks,
+    @inject(ErrorMessage)
+    private readonly _errorMessage: ErrorMessage
   ) {}
 
   @Post("/login")
@@ -40,29 +43,35 @@ export class UserController {
     @Res() res: Response,
     @Body() cmd: LoginWithEmailCommand
   ) {
-    const body = LoginWithEmailCommand.setProperties(cmd);
-    await validateOrReject(body);
-    const { email, password } = body;
+    try {
+      const body = LoginWithEmailCommand.setProperties(cmd);
+      await validateOrReject(body);
+      const { email, password } = body;
 
-    const result = await this._loginWithEmail.execute({
-      email,
-      password,
-    });
+      const result = await this._loginWithEmail.execute({
+        email,
+        password,
+      });
+      setToken({
+        res,
+        token: result.token,
+        cookieOptions,
+      });
 
-    const artworks = await this._getAllArtworks.execute();
-    const galleryForLoggedIn = await this._galleryForLoggedIn.execute(artworks);
-    const userLoggedInControls = await this._userLoggedInControls.execute();
-    const loginFormClosed = await this._loginFormClosed.execute();
+      const artworks = await this._getAllArtworks.execute();
+      const galleryForLoggedIn = await this._galleryForLoggedIn.execute(
+        artworks
+      );
+      const userLoggedInControls = await this._userLoggedInControls.execute();
+      const loginFormClosed = await this._loginFormClosed.execute();
 
-    setToken({
-      res,
-      token: result.token,
-      cookieOptions,
-    });
-
-    return res
-      .status(200)
-      .send(userLoggedInControls + galleryForLoggedIn + loginFormClosed);
+      return res
+        .status(200)
+        .send(userLoggedInControls + galleryForLoggedIn + loginFormClosed);
+    } catch (error: any) {
+      const errorMessage = await this._errorMessage.execute(error);
+      return res.status(500).send(errorMessage);
+    }
   }
 
   @Post("/logout")

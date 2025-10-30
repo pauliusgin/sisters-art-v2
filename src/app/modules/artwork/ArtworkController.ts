@@ -26,6 +26,7 @@ import { UpdateArtworkCommand } from "./commands/UpdateArtworkCommand";
 import {
   ArtworkItem,
   ArtworkUpdateFormClosed,
+  ErrorMessage,
   GalleryForGuest,
   GalleryForLoggedIn,
   UploadFormClosed,
@@ -55,31 +56,38 @@ export class ArtworkController {
     @inject(GetArtworkById)
     private readonly _getArtworkById: GetArtworkById,
     @inject(GalleryForGuest)
-    private readonly _galleryForGuest: GalleryForGuest
+    private readonly _galleryForGuest: GalleryForGuest,
+    @inject(ErrorMessage)
+    private readonly _errorMessage: ErrorMessage
   ) {}
 
   @UseBefore(AuthenticationMiddleware)
   @Post("/")
   async createArtwork(@Res() res: Response, @Body() cmd: CreateArtworkCommand) {
-    const body = CreateArtworkCommand.setProperties(cmd);
-    await validateOrReject(body);
-    const { title, author, type, material, method, date, fileUrl } = body;
+    try {
+      const body = CreateArtworkCommand.setProperties(cmd);
+      await validateOrReject(body);
+      const { title, author, type, material, method, date, fileUrl } = body;
 
-    await this._createArtwork.execute({
-      title,
-      author,
-      type,
-      material,
-      method,
-      date,
-      fileUrl,
-    });
+      await this._createArtwork.execute({
+        title,
+        author,
+        type,
+        material,
+        method,
+        date,
+        fileUrl,
+      });
 
-    const artworks = await this._getAllArtworks.execute();
-    const gallery = await this._galleryForLoggedIn.execute(artworks);
-    const uploadFormClosed = await this._uploadFormClosed.execute();
+      const artworks = await this._getAllArtworks.execute();
+      const gallery = await this._galleryForLoggedIn.execute(artworks);
+      const uploadFormClosed = await this._uploadFormClosed.execute();
 
-    return res.status(201).send(gallery + uploadFormClosed);
+      return res.status(201).send(gallery + uploadFormClosed);
+    } catch (error: any) {
+      const errorMessage = await this._errorMessage.execute(error);
+      return res.status(500).send(errorMessage);
+    }
   }
 
   @UseBefore(AuthenticationMiddleware)
@@ -89,25 +97,30 @@ export class ArtworkController {
     @Param("artworkId") artworkId: string,
     @Body() cmd: UpdateArtworkCommand
   ) {
-    const body = UpdateArtworkCommand.setProperties(cmd);
-    await validateOrReject(body);
-    const { title, author, type, material, method, date } = body;
+    try {
+      const body = UpdateArtworkCommand.setProperties(cmd);
+      await validateOrReject(body);
+      const { title, author, type, material, method, date } = body;
 
-    const update = await this._updateArtwork.execute({
-      artworkId,
-      title,
-      author,
-      type,
-      material,
-      method,
-      date,
-    });
+      const update = await this._updateArtwork.execute({
+        artworkId,
+        title,
+        author,
+        type,
+        material,
+        method,
+        date,
+      });
 
-    const artwork = await this._getArtworkById.execute(update.props.id);
-    const artworkItem = await this._artworkItem.execute(artwork);
-    const updateFormClosed = await this._artworkUpdateFormClosed.execute();
+      const artwork = await this._getArtworkById.execute(update.props.id);
+      const artworkItem = await this._artworkItem.execute(artwork);
+      const updateFormClosed = await this._artworkUpdateFormClosed.execute();
 
-    return res.status(200).send(artworkItem + updateFormClosed);
+      return res.status(200).send(artworkItem + updateFormClosed);
+    } catch (error: any) {
+      const errorMessage = await this._errorMessage.execute(error);
+      return res.status(500).send(errorMessage);
+    }
   }
 
   @UseBefore(AuthenticationMiddleware)

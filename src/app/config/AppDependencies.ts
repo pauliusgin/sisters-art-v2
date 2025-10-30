@@ -50,6 +50,8 @@ import {
   ArtworkItem,
   ArtworkUpdateForm,
   ArtworkUpdateFormClosed,
+  ErrorMessage,
+  ErrorMessageClosed,
   GalleryForGuest,
   GalleryForLoggedIn,
   HamburgerButton,
@@ -146,6 +148,8 @@ export class AppDependencies extends Container {
     this.bind(ArtworkUpdateFormClosed).toSelf();
     this.bind(ArtworkItem).toSelf();
     this.bind(DeleteButtonConfirmation).toSelf();
+    this.bind(ErrorMessage).toSelf();
+    this.bind(ErrorMessageClosed).toSelf();
 
     // controllers
     this.bind(UserController).toSelf();

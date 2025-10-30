@@ -15,3 +15,5 @@ export { UploadPreview } from "./ui/UploadPreview";
 export { UserGuestControls } from "./ui/UserGuestControls";
 export { UserLoggedInControls } from "./ui/UserLoggedInControls";
 export { DeleteButtonConfirmation } from "./ui/DeleteButtonConfirmation";
+export { ErrorMessage } from "./ui/ErrorMessage";
+export { ErrorMessageClosed } from "./ui/ErrorMessageClosed";
