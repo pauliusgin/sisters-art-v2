@@ -9,7 +9,7 @@ export class HamburgerMenuOpen implements Usecase<void, string> {
     return `
     <div 
       id="hamburger-menu" 
-      class="pb-[1rem] pl-[1rem]">
+      class="pb-[1rem] pl-[1rem] md:hidden">
       <ul class="space-y-1">
       <li>
         <a 
