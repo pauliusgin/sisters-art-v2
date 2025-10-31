@@ -113,6 +113,7 @@ export class UploadForm implements Usecase<void, string> {
                 <option value="Cardboard">Cardboard</option>
                 <option value="Cardboard drawing">Cardboard drawing</option>
                 <option value="Coloring">Coloring</option>
+                <option value="Collage">Collage</option>
                 <option value="Other">Other</option>
               </select>
             </label>
