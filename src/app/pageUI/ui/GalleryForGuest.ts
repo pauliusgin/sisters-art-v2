@@ -14,7 +14,7 @@ export class GalleryForGuest implements Usecase<ArtworkReadModel[], string> {
 
     const gallery = ejs.render(
       `
-  <div hx-swap-oob="outerHTML" id="gallery-items" class="flex flex-row flex-wrap justify-evenly gap-[1rem]">
+  <div hx-swap-oob="outerHTML" id="gallery-items" class="flex flex-row flex-wrap justify-evenly gap-[2rem]">
     <% artworks.forEach(a => { %>
       <div class="flex flex-col group items-center text-center max-w-[20rem]">
         <div class="relative inline-block">        
