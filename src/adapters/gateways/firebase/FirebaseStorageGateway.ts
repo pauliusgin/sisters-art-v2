@@ -46,7 +46,12 @@ export class FirebaseStorageGateway implements StorageGateway {
     const bucket = this._firebase.bucket(this.config.defaultBucket);
     const file = bucket.file(path);
 
-    await file.delete();
+    try {
+      await file.delete();
+    } catch (error: any) {
+      console.log(`Error while deleting a file: ${error?.message}`);
+      return;
+    }
   }
 
   buildUrl(payload: {
