@@ -6,7 +6,6 @@ export enum ArtworkMethod {
   GOUACHE = "Gouache",
   MOULDING = "Moulding",
   CUT_AND_PASTE = "Cut-and-paste",
-  DIGITAL = "Digital",
   FINGER_PAINT = "Finger paint",
   OTHER = "Other",
 }
