@@ -11,7 +11,8 @@ export class HamburgerButtonX implements Usecase<void, string> {
       hx-get="/ui/hamburger-menu-closed"
       hx-trigger="
         click, 
-        keydown[key=='Escape'] from:window,
+        click[!event.target.closest('#hamburger-menu')] from:body,
+        keydown[key=='Escape'] from:window
       hx-target="#hamburger-menu"
       hx-swap-oob="outerHTML"
       id="hamburger-button"
