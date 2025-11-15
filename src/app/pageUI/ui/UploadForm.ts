@@ -20,7 +20,7 @@ export class UploadForm implements Usecase<void, string> {
 
           <button
             hx-get="/ui/upload-form-closed"
-            hx-trigger="click"
+            hx-trigger="click, keydown[key=='Escape'] from:window"
             hx-target="#upload-form"
             hx-swap="outerHTML"
             type="button"

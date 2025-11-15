@@ -22,7 +22,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
 
           <button
             hx-get="/ui/artwork-update-form-closed"
-            hx-trigger="click"
+            hx-trigger="click, keydown[key=='Escape'] from:window"
             hx-target="#artwork-update-form"
             hx-swap="outerHTML"
             type="button"

@@ -8,12 +8,14 @@ export class HamburgerButtonX implements Usecase<void, string> {
   async execute(): Promise<string> {
     return `
     <button
-        hx-get="/ui/hamburger-menu-closed"
-        hx-trigger="click"
-        hx-target="#hamburger-menu"
-        hx-swap-oob="outerHTML"
-        id="hamburger-button"
-        class="block border border-black rounded-md bg-none p-2.5 text-black transition focus:outline-none focus:ring-1 focus:ring-blue-500 focus:rounded-md hover:text-purple-500/75 hover:border-blue-500 md:hidden">
+      hx-get="/ui/hamburger-menu-closed"
+      hx-trigger="
+        click, 
+        keydown[key=='Escape'] from:window,
+      hx-target="#hamburger-menu"
+      hx-swap-oob="outerHTML"
+      id="hamburger-button"
+      class="block border border-black rounded-md bg-none p-2.5 text-black transition focus:outline-none focus:ring-1 focus:ring-blue-500 focus:rounded-md hover:text-purple-500/75 hover:border-blue-500 md:hidden">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="size-5"
@@ -26,6 +28,6 @@ export class HamburgerButtonX implements Usecase<void, string> {
           fill="currentColor"
         />
       </svg>
-        </button>`;
+    </button>`;
   }
 }

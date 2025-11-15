@@ -20,7 +20,7 @@ export class LoginForm implements Usecase<void, string> {
 
           <button
             hx-get="/ui/login-form-closed"
-            hx-trigger="click"
+            hx-trigger="click, keydown[key=='Escape'] from:window"
             hx-target="#login-form"
             hx-swap="outerHTML"
             type="button"
