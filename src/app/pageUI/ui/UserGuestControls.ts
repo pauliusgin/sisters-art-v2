@@ -14,7 +14,7 @@ export class UserGuestControls implements Usecase<void, string> {
                 hx-get="/ui/login-form"
                 hx-trigger="click"
                 hx-target="#login-form"
-                hx-swap="outerHTML">
+                hx-swap="outerHTML transition:true">
                 Login
               </a>
             </div>`;

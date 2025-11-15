@@ -28,7 +28,7 @@ export class GalleryForLoggedIn implements Usecase<ArtworkReadModel[], string> {
           <button        
             hx-post="ui/artwork-update-form"
             hx-target="#artwork-update-form"
-            hx-swap="outerHTML"
+            hx-swap="outerHTML transition:true"
             hx-vals='{"artworkId": "<%= a.id %>"}'
             type="button"
             id="artwork-update-button"

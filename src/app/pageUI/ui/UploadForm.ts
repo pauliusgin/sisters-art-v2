@@ -22,7 +22,7 @@ export class UploadForm implements Usecase<void, string> {
             hx-get="/ui/upload-form-closed"
             hx-trigger="click, keydown[key=='Escape'] from:window"
             hx-target="#upload-form"
-            hx-swap="outerHTML"
+            hx-swap="outerHTML transition:true"
             type="button"
             class="rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
             aria-label="Close">
@@ -46,7 +46,7 @@ export class UploadForm implements Usecase<void, string> {
         hx-post="/artworks"
         hx-target="#gallery-items"
         hx-target-5*="#error-message"
-        hx-swap="innerHTML"
+        hx-swap="innerHTML transition:true"
         >
         <div class="mt-4">
         
@@ -63,7 +63,7 @@ export class UploadForm implements Usecase<void, string> {
               hx-post="/uploads"
               hx-target="#upload-preview"
               hx-target-5*="#error-message"
-              hx-swap="outerHTML"
+              hx-swap="outerHTML transition:true"
               class="text-sm font-merienda mt-[0.5] mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-md sm:text-sm">
             </input>
           </label>
@@ -161,7 +161,7 @@ export class UploadForm implements Usecase<void, string> {
               hx-get="/ui/upload-form-closed"
               hx-trigger="click"
               hx-target="#upload-form"
-              hx-swap="outerHTML"
+              hx-swap="outerHTML transition:true"
               type="button"
               class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-pink-500 hover:border-purple-500">
               Cancel

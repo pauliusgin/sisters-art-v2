@@ -13,7 +13,7 @@ export class DeleteButtonConfirmation implements Usecase<string, string> {
         hx-delete="/artworks/<%= artworkId %>"
         hx-trigger="click"
         hx-target="[data-artwork-item-id='<%= artworkId %>']"
-        hx-swap="delete"
+        hx-swap="delete transition:true"
         hx-confirm="Are you really sure you want to delete this artwork? This action is irreversible."
         type="button"
         id="delete-button-confirmation"

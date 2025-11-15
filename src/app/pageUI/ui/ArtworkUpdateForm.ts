@@ -24,7 +24,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
             hx-get="/ui/artwork-update-form-closed"
             hx-trigger="click, keydown[key=='Escape'] from:window"
             hx-target="#artwork-update-form"
-            hx-swap="outerHTML"
+            hx-swap="outerHTML transition:true"
             type="button"
             class="rounded-full p-2 text-black-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-red-500 focus:rounded-[50%]"
             aria-label="Close">
@@ -47,7 +47,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
         hx-patch="/artworks/<%= artwork.id %>"
         hx-target="[data-artwork-item-id='<%= artwork.id %>']"
         hx-target-5*="#error-message"
-        hx-swap="outerHTML"
+        hx-swap="outerHTML transition:true"
         >
         <div class="mt-4">
         
@@ -155,7 +155,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
                 hx-post="/ui/delete-button-confirmation"
                 hx-trigger="click"
                 hx-target="#delete-button"
-                hx-swap="outerHTML"
+                hx-swap="outerHTML transition:true"
                 hx-confirm="Are you sure you want to delete this artwork?"
                 hx-vals='{"artworkId": "<%= artwork.id %>"}'
                 type="button"
@@ -169,7 +169,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
                 hx-get="/ui/artwork-update-form-closed"
                 hx-trigger="click"
                 hx-target="#artwork-update-form"
-                hx-swap="outerHTML"
+                hx-swap="outerHTML transition:true"
                 type="button"
                 class="block border border-black rounded-md bg-none px-5 py-[0.3rem] text-sm font-medium text-black transition focus:outline-none focus:ring-1 focus:ring-red-500 focus:rounded-md hover:text-pink-500 hover:border-purple-500">
                 Cancel

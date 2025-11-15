@@ -37,7 +37,7 @@
           hx-get="/ui/hamburger-menu"
           hx-trigger="click"
           hx-target="#hamburger-menu"
-          hx-swap="outerHTML"
+          hx-swap="outerHTML transition:true"
           id="hamburger-button"
           class="block border border-black rounded-md bg-none p-2.5 text-black transition focus:outline-none focus:ring-1 focus:ring-blue-500 focus:rounded-md hover:text-purple-500/75 hover:border-blue-500 md:hidden">
           <svg
@@ -104,7 +104,7 @@
             hx-get="/ui/user-controls"
             hx-trigger="load"
             hx-target="#user-controls"
-            hx-swap="innerHTML"></div>
+            hx-swap="innerHTML transition:true"></div>
         </div>
       </div>
       <div id="hamburger-menu"></div>
@@ -223,7 +223,7 @@
         hx-get="/artworks"
         hx-trigger="load"
         hx-target="#gallery-items"
-        hx-swap="outerHTML"
+        hx-swap="outerHTML transition:true"
         class="section"
         id="gallery">
         <div class="div-main-text div-gallery-text">
@@ -246,7 +246,7 @@
                     hx-get="/artworks"
                     hx-trigger="keyup changed delay:500ms, keyup[key=='Enter']"
                     hx-target="#gallery-items"
-                    hx-swap="outerHTML"
+                    hx-swap="outerHTML transition:true"
                     class="text-sm w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-green-500 focus:rounded-md sm:text-sm" />
                   <span
                     class="absolute inset-y-0 right-2 grid w-8 place-content-center">

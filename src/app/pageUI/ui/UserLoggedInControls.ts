@@ -15,7 +15,7 @@ export class UserLoggedInControls implements Usecase<void, string> {
                 hx-get="/ui/upload-form"
                 hx-trigger="click"
                 hx-target="#upload-form"
-                hx-swap="outerHTML">
+                hx-swap="outerHTML transition:true">
                 Upload
               </a>
             </div>
@@ -27,7 +27,7 @@ export class UserLoggedInControls implements Usecase<void, string> {
                 hx-post="/users/logout"
                 hx-trigger="click"
                 hx-target="#user-controls"
-                hx-swap="innerHTML">
+                hx-swap="innerHTML transition:true">
                 Logout
               </a>
             </div>`;
