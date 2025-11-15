@@ -1,6 +1,10 @@
 import { injectable } from "inversify";
 import { EntityManager } from "typeorm";
-import { ArtworkReadModel, ArtworkReadModelRepository } from "../../../../core";
+import {
+  ArtworkReadModel,
+  ArtworkReadModelRepository,
+  GetArtworksParams,
+} from "../../../../core";
 import { ArtworkReadModelMapper } from "./ArtworkReadModelMapper";
 
 @injectable()
@@ -13,7 +17,22 @@ export class PostgresArtworkReadModelRepository
     this.artworkReadModelMapper = new ArtworkReadModelMapper();
   }
 
-  async getAll(): Promise<ArtworkReadModel[]> {
+  async getAll(params?: GetArtworksParams): Promise<ArtworkReadModel[]> {
+    let searchCondition = ``;
+
+    if (params?.search) {
+      searchCondition = `
+        AND (
+          art.title ILIKE '%${params.search}%' OR
+          art.author::text ILIKE '%${params.search}%' OR
+          art."authorAge"::text ILIKE '%${params.search}%' OR
+          art.type::text ILIKE '%${params.search}%' OR
+          art.method::text ILIKE '%${params.search}%' OR
+          art.material::text ILIKE '%${params.search}%' OR
+          art.date::text ILIKE '%${params.search}%'
+            )`;
+    }
+
     const result: ArtworkReadModel[] = await this._entityManager.query(
       `
     SELECT
@@ -30,6 +49,7 @@ export class PostgresArtworkReadModelRepository
       artworks art 
     WHERE
       art."deletedAt" IS NULL
+      ${searchCondition}
     ORDER BY 
       art.date DESC
     `

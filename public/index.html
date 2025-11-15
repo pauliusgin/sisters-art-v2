@@ -23,7 +23,7 @@
     <script src="./js/response-targets.min.js" defer></script>
   </head>
   <body
-    hx-ext="response-targets" 
+    hx-ext="response-targets"
     class="min-h-screen bg-[url('/images/brown-floor-1.webp')] bg-contain flex flex-col align-mddle">
     <div id="login-form"></div>
     <div id="upload-form"></div>
@@ -110,7 +110,8 @@
       <div id="hamburger-menu"></div>
     </header>
 
-    <div class="flex flex-col align-middle px-[1rem] sm:px-[2rem] md:mx-[4rem] text-shadow-sm">
+    <div
+      class="flex flex-col align-middle px-[1rem] sm:px-[2rem] md:mx-[4rem] text-shadow-sm">
       <!-- WELCOME -->
       <div
         class="flex flex-col pb-[10rem] mx-0 md:mx-[1rem] lg-[2rem]"
@@ -228,9 +229,44 @@
         <div class="div-main-text div-gallery-text">
           <h2
             data-language="en"
-            class="text-clamp-h2 font-merienda text-center pt-[2rem] pb-[5rem] text-shadow-sm">
+            class="text-clamp-h2 font-merienda text-center pt-[2rem] pb-[2rem] text-shadow-sm">
             The Gallery
           </h2>
+          <div
+            id="gallery-controls"
+            class="pb-[5rem] flex flex-col items-center">
+            <div id="search" class="w-[250px]">
+              <label for="search" class="block font-merienda text-xs">
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="search"
+                    name="search"
+                    placeholder="search..."
+                    hx-get="/artworks"
+                    hx-trigger="keyup changed delay:500ms, keyup[key=='Enter']"
+                    hx-target="#gallery-items"
+                    hx-swap="outerHTML"
+                    class="text-sm w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-green-500 focus:rounded-md sm:text-sm" />
+                  <span
+                    class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-4">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+                    </svg>
+                  </span>
+                </div>
+              </label>
+            </div>
+          </div>
         </div>
         <div
           id="gallery-items"

@@ -4,14 +4,20 @@ import { ArtworkReadModel } from "../models/ArtworkReadModel";
 import { AppIdentifiers } from "../../AppIdentifiers";
 import { ArtworkReadModelRepository } from "../repositories/ArtworkReadModelRepository";
 
-@injectable()
-export class GetAllArtworks implements Usecase<void, ArtworkReadModel[]> {
-    constructor(
-        @inject(AppIdentifiers.artworkReadModelRepository)
-        private readonly _artworkRepository: ArtworkReadModelRepository
-    ) {}
+export interface GetArtworksParams {
+  search?: string;
+}
 
-    async execute(): Promise<ArtworkReadModel[]> {
-        return await this._artworkRepository.getAll();
-    }
+@injectable()
+export class GetAllArtworks
+  implements Usecase<GetArtworksParams, ArtworkReadModel[]>
+{
+  constructor(
+    @inject(AppIdentifiers.artworkReadModelRepository)
+    private readonly _artworkRepository: ArtworkReadModelRepository
+  ) {}
+
+  async execute(params?: GetArtworksParams): Promise<ArtworkReadModel[]> {
+    return await this._artworkRepository.getAll(params);
+  }
 }

@@ -90,7 +90,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
               name="title"
               id="title-input"
               placeholder="Optional"
-              value="<%= artwork.title ?? "No title" %>"
+              value="<%= artwork.title ?? "" %>"
               class="text-sm mt-0.5 mb-[0.5rem] w-full px-2 py-[0.3rem] bg-[rgba(240,235,230,0.8)] rounded-md shadow-sm focus:outline-none border border-transparent focus:border-black focus:ring-1 focus:ring-green-500 focus:rounded-md sm:text-sm" />
           </label>
 
@@ -107,6 +107,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
                 <option value="Coloring">Coloring</option>
                 <option value="Collage">Collage</option>
                 <option value="Other">Other</option>
+                <option value="">(remove type)</option>
               </select>
             </label>
 
@@ -126,6 +127,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
                 <option value="Digital">Digital</option>
                 <option value="Finger paint">Finger paint</option>
                 <option value="Other">Other</option>
+                <option value="">(remove method)</option>
               </select>
             </label>
 
@@ -141,6 +143,7 @@ export class ArtworkUpdateForm implements Usecase<ArtworkReadModel, string> {
                 <option value="Playdough">Playdough</option>
                 <option value="Digital">Digital</option>
                 <option value="Other">Other</option>
+                <option value="">(remove material)</option>
               </select>
             </label>
 

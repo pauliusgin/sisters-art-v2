@@ -13,6 +13,7 @@ import {
   UseBefore,
   Body,
   Param,
+  QueryParams,
 } from "routing-controllers";
 import { CreateArtwork } from "../../../core/write/usecases/artwork/CreateArtwork";
 import { CreateArtworkCommand } from "./commands/CreateArtworkCommand";
@@ -32,6 +33,7 @@ import {
   UploadFormClosed,
 } from "../../pageUI";
 import { checkToken } from "../../utils/token";
+import { ArtQueryParams } from "./queryParams/ArtQueryParams";
 
 @injectable()
 @JsonController("/artworks")
@@ -137,8 +139,13 @@ export class ArtworkController {
   }
 
   @Get("/")
-  async getArtworks(@Req() req: Request, @Res() res: Response) {
-    const artworks = await this._getAllArtworks.execute();
+  async getArtworks(
+    @Req() req: Request,
+    @Res() res: Response,
+    @QueryParams({ type: ArtQueryParams, required: false })
+    params: ArtQueryParams
+  ) {
+    const artworks = await this._getAllArtworks.execute({ ...params });
 
     const token = checkToken(req);
     if (!token) {
