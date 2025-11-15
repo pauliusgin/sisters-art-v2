@@ -18,24 +18,26 @@ export class PostgresArtworkReadModelRepository
   }
 
   async getAll(params?: GetArtworksParams): Promise<ArtworkReadModel[]> {
+    const values: string[] = [];
     let searchCondition = ``;
 
     if (params?.search) {
+      values.push(`%${params.search}%`);
+      const valueIndex = `$${values.length}`;
+
       searchCondition = `
         AND (
-          art.title ILIKE '%${params.search}%' OR
-          art.author::text ILIKE '%${params.search}%' OR
-          art."authorAge"::text ILIKE '%${params.search}%' OR
-          art.type::text ILIKE '%${params.search}%' OR
-          art.method::text ILIKE '%${params.search}%' OR
-          art.material::text ILIKE '%${params.search}%' OR
-          art.date::text ILIKE '%${params.search}%'
+          art.title ILIKE ${valueIndex} OR
+          art.author::text ILIKE ${valueIndex} OR
+          art."authorAge"::text ILIKE ${valueIndex} OR
+          art.type::text ILIKE ${valueIndex} OR
+          art.method::text ILIKE ${valueIndex} OR
+          art.material::text ILIKE ${valueIndex} OR
+          art.date::text ILIKE ${valueIndex}
             )`;
     }
 
-    const result: ArtworkReadModel[] = await this._entityManager.query(
-      `
-    SELECT
+    const query = `SELECT
       art.id,
       art.title,
       art.author,
@@ -52,7 +54,11 @@ export class PostgresArtworkReadModelRepository
       ${searchCondition}
     ORDER BY 
       art.date DESC
-    `
+    `;
+
+    const result: ArtworkReadModel[] = await this._entityManager.query(
+      query,
+      values
     );
 
     return result.map((artwork) =>
