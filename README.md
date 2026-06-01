@@ -1,3 +1,3 @@
-I wanted to have a webpage for my kids' pictures and artistic explorations, where I could just take pictures of their art with my phone and upload the images to the web app. 
+I wanted a simple website for my kids' artwork and creative projects—a place where I could snap photos of their creations with my phone and upload them directly to a web app.
 
-Also took the opportuity to try out htmx in the process.
+It also gave me a good excuse to experiment with HTMX along the way.
